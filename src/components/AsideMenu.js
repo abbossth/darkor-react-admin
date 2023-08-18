@@ -3,6 +3,7 @@ import Logo from "../assets/images/logo-darkor-removebg.png";
 
 const AsideMenu = () => {
   const location = useLocation();
+  const htmlTag = document.getElementById("html");
   return (
     <aside
       id="layout-menu"
@@ -17,12 +18,12 @@ const AsideMenu = () => {
             Darkor
           </span>
         </Link>
-        <a
-          href="javascript:void(0);"
+        <span
+          onClick={() => htmlTag.classList.remove("layout-menu-expanded")}
           class="layout-menu-toggle menu-link text-large ms-auto"
         >
           <i class="bx bx-chevron-left bx-sm align-middle"></i>
-        </a>
+        </span>
       </div>
       <div class="menu-inner-shadow"></div>
       <ul class="menu-inner py-1">
