@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo-darkor-removebg.png";
 
 const AsideMenu = () => {
+  const location = useLocation();
   return (
     <aside
       id="layout-menu"
@@ -25,14 +26,18 @@ const AsideMenu = () => {
       </div>
       <div class="menu-inner-shadow"></div>
       <ul class="menu-inner py-1">
-        <li class="menu-item">
+        <li class={`menu-item ${location.pathname === "/" ? "active" : ""}`}>
           {/* active*/}
           <Link to={"/"} class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div>Products</div>
           </Link>
         </li>
-        <li class="menu-item">
+        <li
+          class={`menu-item ${
+            location.pathname === "/categories" ? "active" : ""
+          }`}
+        >
           <Link to={"/categories"} class="menu-link">
             <i class="menu-icon tf-icons bx bx-detail"></i>
             <div>Categories</div>
