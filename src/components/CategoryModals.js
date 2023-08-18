@@ -1,4 +1,9 @@
-export const AddCategoryModal = () => {
+import { useState } from "react";
+import axios from "../api/axios";
+
+export const AddCategoryModal = ({ handleCreateCategory }) => {
+  const [name, setName] = useState("");
+
   return (
     <div
       class="modal fade"
@@ -30,8 +35,10 @@ export const AddCategoryModal = () => {
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="Ichimliklar"
                   aria-describedby="defaultFormControlHelp"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -53,7 +60,11 @@ export const AddCategoryModal = () => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-primary">
+            <button
+              onClick={() => handleCreateCategory(name)}
+              type="button"
+              class="btn btn-primary"
+            >
               CREATE
             </button>
           </div>
@@ -63,7 +74,7 @@ export const AddCategoryModal = () => {
   );
 };
 
-export const EditCategoryModal = () => {
+export const EditCategoryModal = ({ id }) => {
   return (
     <div
       class="modal fade"
@@ -128,7 +139,15 @@ export const EditCategoryModal = () => {
   );
 };
 
-export const DeleteCategoryModal = () => {
+export const DeleteCategoryModal = ({ id }) => {
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`/category/${id}`);
+    } catch (error) {
+      console.log(`Error in deleting category ${error}`);
+    }
+  };
+
   return (
     <div
       class="modal fade"
@@ -159,7 +178,13 @@ export const DeleteCategoryModal = () => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-danger">
+            <button
+              type="button"
+              class="btn btn-danger"
+              onClick={handleDelete}
+              data-bs-toggle="modal"
+              data-bs-target="#deleteCategoryModal"
+            >
               DELETE
             </button>
           </div>

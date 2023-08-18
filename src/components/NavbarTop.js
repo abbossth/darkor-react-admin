@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "../api/axios";
 
 const NavbarTop = () => {
   const htmlTag = document.getElementById("html");
+  const [searchString, setSearchString] = useState("");
+
+  const fetchSearchProduct = async () => {
+    if (!searchString) return;
+    try {
+      const res = await axios.get(`/product/search`);
+      console.log("search", res);
+    } catch (err) {
+      console.log(`Error in Search Products: ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchSearchProduct();
+  }, [searchString]);
+
   return (
     <nav
       class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -29,6 +46,8 @@ const NavbarTop = () => {
               class="form-control border-0 shadow-none"
               placeholder="Search..."
               aria-label="Search"
+              value={searchString}
+              onChange={(e) => setSearchString(e.target.value)}
             />
           </div>
         </div>
