@@ -1,8 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/images/logo-darkor-removebg.png";
 import { Link } from "react-router-dom";
+import axios from "../api/axios";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    if (!username.length || !password.length) return;
+    try {
+      const res = await axios.post(
+        "/admins/auth/sign-in",
+        JSON.stringify({
+          phone: username,
+          password: password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("res", res, res?.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
@@ -40,6 +65,8 @@ const Login = () => {
                     name="email-username"
                     placeholder="Enter your email or username"
                     autofocus=""
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">
@@ -59,6 +86,8 @@ const Login = () => {
                       name="password"
                       placeholder="············"
                       aria-describedby="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <span class="input-group-text cursor-pointer">
                       <i class="bx bx-hide"></i>
@@ -78,7 +107,11 @@ const Login = () => {
                   </div>
                 </div>
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">
+                  <button
+                    onClick={handleSignIn}
+                    class="btn btn-primary d-grid w-100"
+                    type="submit"
+                  >
                     Sign in
                   </button>
                 </div>
