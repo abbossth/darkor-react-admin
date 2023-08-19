@@ -57,6 +57,7 @@ const Products = () => {
             </thead>
             <tbody class="table-border-bottom-0">
               {products.map((p, idx) => {
+                console.log(p);
                 return (
                   <tr key={p._id}>
                     <td>{idx + 1}</td>
@@ -71,11 +72,23 @@ const Products = () => {
                     <td>{p.price} UZS</td>
                     <td>
                       <span class="badge bg-label-primary me-1">
-                        {p.categoryId}
+                        {p?.categoryId?.name}
                       </span>
                     </td>
-                    <td>{p.size}</td>
-                    <td>{p.color}</td>
+                    <td>
+                      {p.size?.map((s, idx) => (
+                        <div key={idx} class="badge bg-label-warning me-1">
+                          {s}
+                        </div>
+                      ))}
+                    </td>
+                    <td>
+                      {p.color?.map((c, idx) => (
+                        <div key={idx} class="badge bg-label-info me-1">
+                          {c}
+                        </div>
+                      ))}
+                    </td>
                     <td>{p.description}</td>
                     <td>
                       <div class="dropdown">
