@@ -1,11 +1,21 @@
 import React, { useState } from "react";
 import Logo from "../assets/images/logo-darkor-removebg.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
+import { getCookies, setCookies } from "../hooks/useCookies";
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const accessToken = getCookies("accessToken") || "";
+
+  if (accessToken.length) {
+    return <Navigate to={from} replace />;
+  }
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     if (!username.length || !password.length) return;
@@ -22,10 +32,18 @@ const Login = () => {
           },
         }
       );
-      console.log("res", res, res?.data);
+      console.log("login", res?.data?.data?.token);
+      setCookies("accessToken", res?.data?.data?.token);
+      clearForm();
+      navigate(from, { replace: true });
     } catch (error) {
       console.log("error", error);
     }
+  };
+
+  const clearForm = () => {
+    setPassword("");
+    setUsername("");
   };
 
   return (

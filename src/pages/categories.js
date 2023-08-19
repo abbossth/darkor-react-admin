@@ -22,7 +22,7 @@ const Categories = () => {
   const handleCreateCategory = async (name) => {
     if (!name) return;
     try {
-      const res = await axios.post(
+      await axios.post(
         "/category",
         JSON.stringify({
           name: name,
