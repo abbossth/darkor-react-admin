@@ -1,6 +1,55 @@
+import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
 export const AddProductModal = () => {
+  const [title, setTitle] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [price, setPrice] = useState(null);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(
+    "https://images.unsplash.com/photo-1598373182308-3270495d2f58?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bG9hZiUyMG9mJTIwYnJlYWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+  );
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(`/category`);
+      setCategories(res?.data?.data?.data?.categories);
+    } catch (err) {
+      console.log(`Error in fetching category: ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const productData = {
+    name: title,
+    title,
+    categoryId,
+    price,
+    size: [size],
+    color: [color],
+    description,
+    image,
+  };
+
+  const handleCreateProduct = async () => {
+    try {
+      const res = await axios.post(`/product`, JSON.stringify(productData), {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log(res?.data);
+    } catch (error) {
+      console.log(`Error in product ${error}`);
+    }
+
+    console.log(productData);
+  };
+
   return (
     <div
       class="modal fade"
@@ -34,6 +83,8 @@ export const AddProductModal = () => {
                   id="defaultFormControlInput"
                   placeholder="John Doe"
                   aria-describedby="defaultFormControlHelp"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -43,11 +94,15 @@ export const AddProductModal = () => {
                 <label for="largeSelect" class="form-label">
                   Category
                 </label>
-                <select id="largeSelect" class="form-select form-select">
-                  <option>Select category</option>
-                  <option value="1">Ichimliklar</option>
-                  <option value="2">Mevalar</option>
-                  <option value="3">Shirinliklar</option>
+                <select
+                  id="largeSelect"
+                  class="form-select form-select"
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  <option value={null}>Select category</option>
+                  {categories?.map((c) => (
+                    <option value={c._id}>{c.name}</option>
+                  ))}
                 </select>
               </div>
               <div class="mb-3">
@@ -60,6 +115,8 @@ export const AddProductModal = () => {
                   id="defaultFormControlInput"
                   placeholder="John Doe"
                   aria-describedby="defaultFormControlHelp"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -75,6 +132,8 @@ export const AddProductModal = () => {
                   id="defaultFormControlInput"
                   placeholder="John Doe"
                   aria-describedby="defaultFormControlHelp"
+                  value={size}
+                  onChange={(e) => setSize(e.target.value)}
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -90,6 +149,8 @@ export const AddProductModal = () => {
                   id="defaultFormControlInput"
                   placeholder="John Doe"
                   aria-describedby="defaultFormControlHelp"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -104,6 +165,8 @@ export const AddProductModal = () => {
                   id="exampleFormControlTextarea1"
                   rows="3"
                   placeholder="Bu mahsulotimiz..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
               </div>
               <div class="mb-3">
@@ -122,7 +185,11 @@ export const AddProductModal = () => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-primary">
+            <button
+              onClick={handleCreateProduct}
+              type="button"
+              class="btn btn-primary"
+            >
               CREATE
             </button>
           </div>
