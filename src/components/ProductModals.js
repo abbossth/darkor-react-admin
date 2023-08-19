@@ -199,7 +199,69 @@ export const AddProductModal = () => {
   );
 };
 
-export const EditProductModal = () => {
+export const EditProductModal = ({ id }) => {
+  const productData = {
+    name: "",
+    title: "",
+    categoryId: { _id: null, name: "No Category" },
+    price: 0,
+    size: "",
+    color: "",
+    description: "",
+    image:
+      "https://images.unsplash.com/photo-1598373182308-3270495d2f58?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bG9hZiUyMG9mJTIwYnJlYWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
+  };
+
+  const [product, setProduct] = useState(productData);
+  const [categories, setCategories] = useState([]);
+
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get(`product/${id}`);
+      setProduct(res?.data?.data?.data?.product);
+    } catch (err) {
+      console.log(`Error in fetching product with id (${id}) - ${err}`);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get(`/category`);
+      setCategories(res?.data?.data?.data?.categories);
+    } catch (err) {
+      console.log(`Error in fetching category: ${err}`);
+    }
+  };
+
+  const handleEditProduct = async () => {
+    try {
+      const res = await axios.patch(`/product/${id}`, {
+        title: product.title,
+        name: product.title,
+        categoryId: product.categoryId._id,
+        price: product.price,
+        size: product.size,
+        color: product.color,
+        description: product.description,
+        image: product.image,
+      });
+    } catch (err) {
+      console.log(`Error in editing product ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchProduct();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [id]);
+
+  console.log(product);
+
   return (
     <div
       class="modal fade"
@@ -231,8 +293,12 @@ export const EditProductModal = () => {
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="Banan.."
                   aria-describedby="defaultFormControlHelp"
+                  value={product.title}
+                  onChange={(e) =>
+                    setProduct({ ...product, title: e.target.value })
+                  }
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -242,11 +308,24 @@ export const EditProductModal = () => {
                 <label for="largeSelect" class="form-label">
                   Category
                 </label>
-                <select id="largeSelect" class="form-select form-select">
-                  <option>Select category</option>
-                  <option value="1">Ichimliklar</option>
-                  <option value="2">Mevalar</option>
-                  <option value="3">Shirinliklar</option>
+                <select
+                  id="largeSelect"
+                  class="form-select form-select"
+                  value={product.categoryId._id}
+                  onChange={(e) =>
+                    setProduct({
+                      ...product,
+                      categoryId: {
+                        ...product.categoryId,
+                        _id: e.target.value,
+                      },
+                    })
+                  }
+                >
+                  <option value={null}>Select category</option>
+                  {categories?.map((c) => (
+                    <option value={c._id}>{c.name}</option>
+                  ))}
                 </select>
               </div>
               <div class="mb-3">
@@ -257,8 +336,12 @@ export const EditProductModal = () => {
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="15,000"
                   aria-describedby="defaultFormControlHelp"
+                  value={product.price}
+                  onChange={(e) =>
+                    setProduct({ ...product, price: e.target.value })
+                  }
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -272,8 +355,12 @@ export const EditProductModal = () => {
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="XL, M, 15, .."
                   aria-describedby="defaultFormControlHelp"
+                  value={product.size}
+                  onChange={(e) =>
+                    setProduct({ ...product, size: e.target.value })
+                  }
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -287,8 +374,12 @@ export const EditProductModal = () => {
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="Black..."
                   aria-describedby="defaultFormControlHelp"
+                  value={product.color}
+                  onChange={(e) =>
+                    setProduct({ ...product, color: e.target.value })
+                  }
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
@@ -303,6 +394,10 @@ export const EditProductModal = () => {
                   id="exampleFormControlTextarea1"
                   rows="3"
                   placeholder="Bu mahsulotimiz..."
+                  value={product.description}
+                  onChange={(e) =>
+                    setProduct({ ...product, description: e.target.value })
+                  }
                 ></textarea>
               </div>
               <div class="mb-3">
@@ -321,7 +416,11 @@ export const EditProductModal = () => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-success">
+            <button
+              onClick={handleEditProduct}
+              type="button"
+              class="btn btn-success"
+            >
               SAVE
             </button>
           </div>
