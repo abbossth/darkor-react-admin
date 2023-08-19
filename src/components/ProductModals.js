@@ -189,6 +189,8 @@ export const AddProductModal = () => {
               onClick={handleCreateProduct}
               type="button"
               class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#addProductModal"
             >
               CREATE
             </button>
@@ -420,6 +422,8 @@ export const EditProductModal = ({ id }) => {
               onClick={handleEditProduct}
               type="button"
               class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#editProductModal"
             >
               SAVE
             </button>
@@ -469,7 +473,13 @@ export const DeleteProductModal = ({ id }) => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-danger" onClick={handleDelete}>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onClick={handleDelete}
+              data-bs-toggle="modal"
+              data-bs-target="#deleteProductModal"
+            >
               DELETE
             </button>
           </div>
