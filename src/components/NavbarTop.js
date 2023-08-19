@@ -9,7 +9,7 @@ const NavbarTop = () => {
   const fetchSearchProduct = async () => {
     if (!searchString) return;
     try {
-      const res = await axios.get(`/product/search`);
+      const res = await axios.get(`/product/search?search=${searchString}`);
       console.log("search", res);
     } catch (err) {
       console.log(`Error in Search Products: ${err}`);
