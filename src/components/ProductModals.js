@@ -1,3 +1,5 @@
+import axios from "../api/axios";
+
 export const AddProductModal = () => {
   return (
     <div
@@ -262,7 +264,15 @@ export const EditProductModal = () => {
   );
 };
 
-export const DeleteProductModal = () => {
+export const DeleteProductModal = ({ id }) => {
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`/product/${id}`);
+    } catch (error) {
+      console.log(`Error in deleting category ${error}`);
+    }
+  };
+
   return (
     <div
       class="modal fade"
@@ -293,7 +303,7 @@ export const DeleteProductModal = () => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-danger">
+            <button type="button" class="btn btn-danger" onClick={handleDelete}>
               DELETE
             </button>
           </div>

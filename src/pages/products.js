@@ -8,6 +8,7 @@ import axios from "../api/axios";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [productId, setProductId] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -65,7 +66,11 @@ const Products = () => {
                     <td>
                       <img
                         width="75"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNf0nvvXE7AVsg2EiONsgZoJS779DTMi89zw&usqp=CAU"
+                        src={
+                          p.image?.includes("http")
+                            ? p.image
+                            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNf0nvvXE7AVsg2EiONsgZoJS779DTMi89zw&usqp=CAU"
+                        }
                         alt="coke"
                       />
                     </td>
@@ -105,6 +110,7 @@ const Products = () => {
                             class="dropdown-item"
                             data-bs-toggle="modal"
                             data-bs-target="#editProductModal"
+                            onClick={() => setProductId(p._id)}
                           >
                             <i class="bx bx-edit-alt me-1"></i> Edit
                           </button>
@@ -112,6 +118,7 @@ const Products = () => {
                             class="dropdown-item"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteProductModal"
+                            onClick={() => setProductId(p._id)}
                           >
                             <i class="bx bx-trash me-1"></i> Delete
                           </button>
@@ -126,8 +133,8 @@ const Products = () => {
         </div>
       </div>
       <AddProductModal />
-      <EditProductModal />
-      <DeleteProductModal />
+      <EditProductModal id={productId} />
+      <DeleteProductModal id={productId} />
     </div>
   );
 };
