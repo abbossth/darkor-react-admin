@@ -9,13 +9,21 @@ import axios from "../api/axios";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchCategories = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(`/api/v1/category`);
       setCategories(res?.data?.data?.data?.categories);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     } catch (err) {
       console.log(`Error in fetching category: ${err}`);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
