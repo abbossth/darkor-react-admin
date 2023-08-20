@@ -14,7 +14,7 @@ const Layout = () => {
   useEffect(() => {
     const checkTokenValid = async () => {
       try {
-        const res = await axios.get("/admins/get/me", {
+        const res = await axios.get("/api/v1/admins/get/me", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",

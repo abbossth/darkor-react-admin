@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://darkor.fly.dev/api/v1",
+  baseURL: "https://darkor.fly.dev",
 });

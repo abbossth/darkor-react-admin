@@ -12,31 +12,10 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get(`/category`);
+      const res = await axios.get(`/api/v1/category`);
       setCategories(res?.data?.data?.data?.categories);
     } catch (err) {
       console.log(`Error in fetching category: ${err}`);
-    }
-  };
-
-  const handleCreateCategory = async (name) => {
-    if (!name) return;
-    try {
-      await axios.post(
-        "/category",
-        JSON.stringify({
-          name: name,
-          image:
-            "https://img.freepik.com/free-vector/successful-business-man-holding-trophy_1150-35042.jpg?w=1380&t=st=1692387687~exp=1692388287~hmac=f64a0bc53bfb98879c8ed78677ef8297f6733542c0315adfc489af06e53f513f",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    } catch (err) {
-      console.log(`Error in Creating Category: ${err}`);
     }
   };
 
@@ -61,7 +40,25 @@ const Categories = () => {
         </div>
       </div>
       <div class="card">
-        <h5 class="card-header">Categories</h5>
+        <div className="card-header row">
+          <h5 class="col">Categories</h5>
+          <div class="col d-flex justify-content-end">
+            <button
+              className="btn"
+              type="button"
+              title="Reload"
+              onClick={fetchCategories}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+              >
+                <path d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
+              </svg>
+            </button>
+          </div>
+        </div>
         <div class="table-responsive text-nowrap">
           <table class="table table-hover">
             <thead>
@@ -86,7 +83,7 @@ const Categories = () => {
                             ? c.image
                             : "https://149520306.v2.pressablecdn.com/wp-content/uploads/2022/02/soft-drink.jpg"
                         }`}
-                        alt="drinks"
+                        alt={`${c.name}`}
                       />
                     </td>
                     <td>
@@ -104,6 +101,7 @@ const Categories = () => {
                             class="dropdown-item"
                             data-bs-toggle="modal"
                             data-bs-target="#editCategoryModal"
+                            onClick={() => setCategoryId(c._id)}
                           >
                             <i class="bx bx-edit-alt me-1"></i> Edit
                           </button>
@@ -125,7 +123,7 @@ const Categories = () => {
           </table>
         </div>
       </div>
-      <AddCategoryModal handleCreateCategory={handleCreateCategory} />
+      <AddCategoryModal />
       <EditCategoryModal id={categoryId} />
       <DeleteCategoryModal id={categoryId} />
     </div>

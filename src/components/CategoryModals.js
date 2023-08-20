@@ -1,8 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../api/axios";
 
-export const AddCategoryModal = ({ handleCreateCategory }) => {
+export const AddCategoryModal = () => {
   const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    if (!e.target.files[0]) {
+      setImage("");
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      const res = await axios.post(`/upload`, formData);
+      setImage(res?.data?.data?.data?.url);
+      console.log("image", res?.data?.data?.data?.url);
+    } catch (err) {
+      console.log(`Error in image upload ${err}`);
+    }
+  };
+
+  const handleCreateCategory = async () => {
+    if (!name.length || !image.length) return;
+    try {
+      await axios.post(
+        "/api/v1/category",
+        JSON.stringify({
+          name,
+          image,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err) {
+      console.log(`Error in Creating Category: ${err}`);
+    }
+  };
 
   return (
     <div
@@ -48,8 +85,20 @@ export const AddCategoryModal = ({ handleCreateCategory }) => {
                 <label for="formFile" class="form-label">
                   Upload Image
                 </label>
-                <input class="form-control" type="file" id="formFile" />
+                <input
+                  class="form-control"
+                  type="file"
+                  id="formFile"
+                  onChange={handleImageUpload}
+                />
               </div>
+              {image.length ? (
+                <div class="mb-3">
+                  <img src={`${image}`} alt="uploaded image" width={200} />
+                </div>
+              ) : (
+                ""
+              )}
             </form>
           </div>
           <div class="modal-footer d-flex justify-content-start">
@@ -64,6 +113,8 @@ export const AddCategoryModal = ({ handleCreateCategory }) => {
               onClick={() => handleCreateCategory(name)}
               type="button"
               class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#addCategoryModal"
             >
               CREATE
             </button>
@@ -75,6 +126,54 @@ export const AddCategoryModal = ({ handleCreateCategory }) => {
 };
 
 export const EditCategoryModal = ({ id }) => {
+  const [category, setCategory] = useState({
+    name: "",
+    image: "",
+  });
+
+  const fetchCategory = async () => {
+    try {
+      const res = await axios.get(`/api/v1/category/${id}`);
+      // console.log("cat", res?.data?.data?.data?.category);
+      setCategory(res?.data?.data?.data?.category);
+    } catch (err) {
+      console.log(`Error in fetching category: ${err}`);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchCategory();
+    }
+  }, [id]);
+
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    if (!e.target.files[0]) {
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("image", e.target.files[0]);
+      const res = await axios.post(`/upload`, formData);
+      setCategory({ ...category, image: res?.data?.data?.data?.url });
+      console.log("image", res?.data?.data?.data?.url);
+    } catch (err) {
+      console.log(`Error in image upload ${err}`);
+    }
+  };
+
+  const handleUpdateCategory = async () => {
+    try {
+      const res = await axios.patch(`/api/v1/category/${id}`, category);
+      console.log("res", res?.data);
+    } catch (err) {
+      console.log(`Error in update category ${err}`);
+    }
+  };
+
+  console.log("c", category);
+
   return (
     <div
       class="modal fade"
@@ -108,17 +207,41 @@ export const EditCategoryModal = ({ id }) => {
                   id="defaultFormControlInput"
                   placeholder="John Doe"
                   aria-describedby="defaultFormControlHelp"
+                  value={category?.name || ""}
+                  onChange={(e) =>
+                    setCategory({ ...category, name: e.target.value })
+                  }
                 />
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
               <div class="mb-3">
-                <label for="formFile" class="form-label">
+                <label
+                  for="formFile"
+                  class="form-label"
+                  onChange={handleImageUpload}
+                >
                   Upload Image
                 </label>
-                <input class="form-control" type="file" id="formFile" />
+                <input
+                  class="form-control"
+                  type="file"
+                  id="formFile"
+                  onChange={handleImageUpload}
+                />
               </div>
+              {category?.image.length ? (
+                <div class="mb-3">
+                  <img
+                    src={`${category?.image}`}
+                    alt="uploaded image"
+                    width={200}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
             </form>
           </div>
           <div class="modal-footer d-flex justify-content-start">
@@ -129,8 +252,14 @@ export const EditCategoryModal = ({ id }) => {
             >
               Cancel
             </button>
-            <button type="button" class="btn btn-success">
-              SAVE
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#editCategoryModal"
+              onClick={handleUpdateCategory}
+            >
+              Save
             </button>
           </div>
         </div>
@@ -142,7 +271,7 @@ export const EditCategoryModal = ({ id }) => {
 export const DeleteCategoryModal = ({ id }) => {
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`/category/${id}`);
+      const res = await axios.delete(`/api/v1/category/${id}`);
     } catch (error) {
       console.log(`Error in deleting category ${error}`);
     }

@@ -21,7 +21,7 @@ const Login = () => {
     if (!username.length || !password.length) return;
     try {
       const res = await axios.post(
-        "/admins/auth/sign-in",
+        "/api/v1/admins/auth/sign-in",
         JSON.stringify({
           phone: username,
           password: password,
