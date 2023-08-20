@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "../api/axios";
+import { getCookies, removeCookies } from "../hooks/useCookies";
+import { useNavigate } from "react-router-dom";
 
 const NavbarTop = () => {
+  const navigate = useNavigate();
   const htmlTag = document.getElementById("html");
   const [searchString, setSearchString] = useState("");
+  const accessToken = getCookies("accessToken");
+  const [profile, setProfile] = useState({ fullName: "", phone: "" });
 
   const fetchSearchProduct = async () => {
     if (!searchString) return;
@@ -21,6 +25,31 @@ const NavbarTop = () => {
   useEffect(() => {
     fetchSearchProduct();
   }, [searchString]);
+
+  const handleLogOut = () => {
+    removeCookies("accessToken");
+    navigate("/login", { replace: true });
+  };
+
+  useEffect(() => {
+    const getAdminProfile = async () => {
+      try {
+        const res = await axios.get("/api/v1/admins/get/me", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setProfile(res?.data?.data);
+      } catch (err) {
+        console.log(`AccessToken is not Valid ${err}`);
+        removeCookies("accessToken");
+        navigate("/login");
+      }
+    };
+
+    getAdminProfile();
+  }, []);
 
   return (
     <nav
@@ -87,7 +116,9 @@ const NavbarTop = () => {
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <span class="fw-semibold d-block">John Doe</span>
+                      <span class="fw-semibold d-block">
+                        {profile.fullName}
+                      </span>
                       <small class="text-muted">Admin</small>
                     </div>
                   </div>
@@ -97,36 +128,10 @@ const NavbarTop = () => {
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="#">
-                  <i class="bx bx-user me-2"></i>
-                  <span class="align-middle">My Profile</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <i class="bx bx-cog me-2"></i>
-                  <span class="align-middle">Settings</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                    <span class="flex-grow-1 align-middle">Billing</span>
-                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
-                      4
-                    </span>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <div class="dropdown-divider"></div>
-              </li>
-              <li>
-                <Link class="dropdown-item" to="/login">
+                <span class="dropdown-item" onClick={handleLogOut}>
                   <i class="bx bx-power-off me-2"></i>
                   <span class="align-middle">Log Out</span>
-                </Link>
+                </span>
               </li>
             </ul>
           </li>

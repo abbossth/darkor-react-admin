@@ -27,7 +27,6 @@ export const AddProductModal = () => {
       formData.append("image", file);
       const res = await axios.post(`/upload`, formData);
       setImage(res?.data?.data?.data?.url);
-      console.log("image", res?.data?.data?.data?.url);
     } catch (err) {
       console.log(`Error in image upload ${err}`);
     }
@@ -81,14 +80,10 @@ export const AddProductModal = () => {
         setImage("");
         setFile(null);
         setCategoryId("");
-        console.log("Success....");
       }
-      console.log(res?.data);
     } catch (error) {
       console.log(`Error in product ${error}`);
     }
-
-    console.log(productData);
   };
 
   return (
@@ -286,7 +281,6 @@ export const EditProductModal = ({ id }) => {
       formData.append("image", file);
       const res = await axios.post(`/upload`, formData);
       setProduct({ ...product, image: res?.data?.data?.data?.url });
-      console.log("image", res?.data?.data?.data?.url);
     } catch (err) {
       console.log(`Error in image upload ${err}`);
     }
@@ -338,8 +332,6 @@ export const EditProductModal = ({ id }) => {
   useEffect(() => {
     if (id) fetchCategories();
   }, [id]);
-
-  console.log(product);
 
   return (
     <div

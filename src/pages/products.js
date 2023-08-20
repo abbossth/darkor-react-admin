@@ -94,7 +94,6 @@ const Products = () => {
                 </thead>
                 <tbody class="table-border-bottom-0">
                   {products.map((p, idx) => {
-                    console.log(p);
                     return (
                       <tr key={p._id}>
                         <td>{idx + 1}</td>
