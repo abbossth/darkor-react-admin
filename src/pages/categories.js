@@ -5,6 +5,7 @@ import {
   DeleteCategoryModal,
 } from "../components/CategoryModals";
 import axios from "../api/axios";
+import Loader from "../components/loader";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -67,69 +68,73 @@ const Categories = () => {
             </button>
           </div>
         </div>
-        <div class="table-responsive text-nowrap">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>TITLE</th>
-                <th>IMAGE</th>
-                <th>ACTION</th>
-              </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-              {categories.map((c, idx) => {
-                return (
-                  <tr key={c._id}>
-                    <td>{idx + 1}</td>
-                    <td>{c.name}</td>
-                    <td>
-                      <img
-                        width="75"
-                        src={`${
-                          c.image.includes("http")
-                            ? c.image
-                            : "https://149520306.v2.pressablecdn.com/wp-content/uploads/2022/02/soft-drink.jpg"
-                        }`}
-                        alt={`${c.name}`}
-                      />
-                    </td>
-                    <td>
-                      <div class="dropdown">
-                        <button
-                          type="button"
-                          class="btn p-0 dropdown-toggle hide-arrow"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu">
+        {loading ? (
+          <Loader />
+        ) : (
+          <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>TITLE</th>
+                  <th>IMAGE</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tbody class="table-border-bottom-0">
+                {categories.map((c, idx) => {
+                  return (
+                    <tr key={c._id}>
+                      <td>{idx + 1}</td>
+                      <td>{c.name}</td>
+                      <td>
+                        <img
+                          width="75"
+                          src={`${
+                            c.image.includes("http")
+                              ? c.image
+                              : "https://149520306.v2.pressablecdn.com/wp-content/uploads/2022/02/soft-drink.jpg"
+                          }`}
+                          alt={`${c.name}`}
+                        />
+                      </td>
+                      <td>
+                        <div class="dropdown">
                           <button
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editCategoryModal"
-                            onClick={() => setCategoryId(c._id)}
+                            type="button"
+                            class="btn p-0 dropdown-toggle hide-arrow"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
                           >
-                            <i class="bx bx-edit-alt me-1"></i> Edit
+                            <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
-                          <button
-                            onClick={() => setCategoryId(c._id)}
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteCategoryModal"
-                          >
-                            <i class="bx bx-trash me-1"></i> Delete
-                          </button>
+                          <div class="dropdown-menu">
+                            <button
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#editCategoryModal"
+                              onClick={() => setCategoryId(c._id)}
+                            >
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </button>
+                            <button
+                              onClick={() => setCategoryId(c._id)}
+                              class="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#deleteCategoryModal"
+                            >
+                              <i class="bx bx-trash me-1"></i> Delete
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
       <AddCategoryModal />
       <EditCategoryModal id={categoryId} />
