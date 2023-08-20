@@ -43,14 +43,14 @@ const Categories = () => {
               data-bs-toggle="modal"
               data-bs-target="#addCategoryModal"
             >
-              Add Category
+              Добавить категорию
             </button>
           </div>
         </div>
       </div>
       <div class="card">
         <div className="card-header row">
-          <h5 class="col">Categories</h5>
+          <h5 class="col">Категории</h5>
           <div class="col d-flex justify-content-end">
             <button
               className="btn"
@@ -75,10 +75,10 @@ const Categories = () => {
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>TITLE</th>
-                  <th>IMAGE</th>
-                  <th>ACTION</th>
+                  <th>#</th>
+                  <th>ЗАГОЛОВОК</th>
+                  <th>ИЗОБРАЖЕНИЕ</th>
+                  <th>ДЕЙСТВИЕ</th>
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
@@ -115,7 +115,7 @@ const Categories = () => {
                               data-bs-target="#editCategoryModal"
                               onClick={() => setCategoryId(c._id)}
                             >
-                              <i class="bx bx-edit-alt me-1"></i> Edit
+                              <i class="bx bx-edit-alt me-1"></i> Редактировать
                             </button>
                             <button
                               onClick={() => setCategoryId(c._id)}
@@ -123,7 +123,7 @@ const Categories = () => {
                               data-bs-toggle="modal"
                               data-bs-target="#deleteCategoryModal"
                             >
-                              <i class="bx bx-trash me-1"></i> Delete
+                              <i class="bx bx-trash me-1"></i> Удалить
                             </button>
                           </div>
                         </div>

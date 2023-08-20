@@ -46,7 +46,7 @@ const NavbarTop = () => {
             <input
               type="text"
               class="form-control border-0 shadow-none"
-              placeholder="Search..."
+              placeholder="Поиск..."
               aria-label="Search"
               value={searchString}
               onChange={(e) => setSearchString(e.target.value)}

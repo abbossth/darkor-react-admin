@@ -31,7 +31,7 @@ const AsideMenu = () => {
           {/* active*/}
           <Link to={"/"} class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div>Products</div>
+            <div>Товары</div>
           </Link>
         </li>
         <li
@@ -41,7 +41,7 @@ const AsideMenu = () => {
         >
           <Link to={"/categories"} class="menu-link">
             <i class="menu-icon tf-icons bx bx-detail"></i>
-            <div>Categories</div>
+            <div>Категории</div>
           </Link>
         </li>
       </ul>
