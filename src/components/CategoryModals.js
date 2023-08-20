@@ -85,7 +85,7 @@ export const AddCategoryModal = () => {
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">
-                  Загрузить Изобрежение
+                  Загрузить Изобрежание
                 </label>
                 <input
                   class="form-control"
@@ -188,7 +188,7 @@ export const EditCategoryModal = ({ id }) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editCategoryModalLabel">
-              Update Category
+              Редактировать Категорию
             </h5>
             <button
               type="button"
@@ -201,13 +201,13 @@ export const EditCategoryModal = ({ id }) => {
             <form action="">
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Title
+                  Заголовок
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="Напитки"
                   aria-describedby="defaultFormControlHelp"
                   value={category?.name || ""}
                   onChange={(e) =>
@@ -224,7 +224,7 @@ export const EditCategoryModal = ({ id }) => {
                   class="form-label"
                   onChange={handleImageUpload}
                 >
-                  Upload Image
+                  Загрузить Изобрежание
                 </label>
                 <input
                   class="form-control"
@@ -252,7 +252,7 @@ export const EditCategoryModal = ({ id }) => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               type="button"
@@ -261,7 +261,7 @@ export const EditCategoryModal = ({ id }) => {
               data-bs-target="#editCategoryModal"
               onClick={handleUpdateCategory}
             >
-              Save
+              Сохранить
             </button>
           </div>
         </div>
@@ -291,7 +291,9 @@ export const DeleteCategoryModal = ({ id }) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="deleteCategoryModalLabel">
-              <div class="alert">Are you sure to delete this category?</div>
+              <div class="alert">
+                Вы уверены, что хотите удалить эту категорию?
+              </div>
             </h5>
             <button
               type="button"
@@ -307,7 +309,7 @@ export const DeleteCategoryModal = ({ id }) => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               type="button"
@@ -316,7 +318,7 @@ export const DeleteCategoryModal = ({ id }) => {
               data-bs-toggle="modal"
               data-bs-target="#deleteCategoryModal"
             >
-              DELETE
+              Удалить
             </button>
           </div>
         </div>

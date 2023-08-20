@@ -213,7 +213,7 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">
-                  Загрузить Изобрежение
+                  Загрузить Изобрежание
                 </label>
                 <input
                   class="form-control"
