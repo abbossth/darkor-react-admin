@@ -353,7 +353,7 @@ export const EditProductModal = ({ id }) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="editProductModalLabel">
-              Update Product
+              Редактировать Товар
             </h5>
             <button
               type="button"
@@ -366,7 +366,7 @@ export const EditProductModal = ({ id }) => {
             <form action="">
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Title
+                  Заголовок
                 </label>
                 <input
                   type="text"
@@ -385,7 +385,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="largeSelect" class="form-label">
-                  Category
+                  Категория
                 </label>
                 <select
                   id="largeSelect"
@@ -401,7 +401,7 @@ export const EditProductModal = ({ id }) => {
                     })
                   }
                 >
-                  <option value={null}>Select category</option>
+                  <option value={null}>Выберите Категорию</option>
                   {categories?.map((c) => (
                     <option value={c._id}>{c.name}</option>
                   ))}
@@ -409,7 +409,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Price
+                  Цена
                 </label>
                 <input
                   type="text"
@@ -428,7 +428,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Size
+                  Размер
                 </label>
                 <input
                   type="text"
@@ -447,7 +447,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Color
+                  Цвет
                 </label>
                 <input
                   type="text"
@@ -466,7 +466,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">
-                  Description (optional)
+                  Описание (Необязательно)
                 </label>
                 <textarea
                   class="form-control"
@@ -481,7 +481,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">
-                  Upload Image
+                  Загрузить Изобрежание
                 </label>
                 <input
                   class="form-control"
@@ -509,7 +509,7 @@ export const EditProductModal = ({ id }) => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               onClick={handleEditProduct}
@@ -518,7 +518,7 @@ export const EditProductModal = ({ id }) => {
               data-bs-toggle="modal"
               data-bs-target="#editProductModal"
             >
-              SAVE
+              Сохранить
             </button>
           </div>
         </div>
@@ -548,7 +548,9 @@ export const DeleteProductModal = ({ id }) => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="deleteProductModalLabel">
-              <div class="alert">Are you sure to delete this product?</div>
+              <div class="alert">
+                Вы уверены, что хотите удалить этот продукт?
+              </div>
             </h5>
             <button
               type="button"
@@ -564,7 +566,7 @@ export const DeleteProductModal = ({ id }) => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               type="button"
@@ -573,7 +575,7 @@ export const DeleteProductModal = ({ id }) => {
               data-bs-toggle="modal"
               data-bs-target="#deleteProductModal"
             >
-              DELETE
+              Удалить
             </button>
           </div>
         </div>
