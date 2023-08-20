@@ -82,14 +82,14 @@ const Products = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>TITLE</th>
-                    <th>IMAGE</th>
-                    <th>PRICE</th>
-                    <th>CATEGORY</th>
-                    <th>SIZE</th>
-                    <th>COLOR</th>
-                    <th>DESCRIPTION</th>
-                    <th>ACTION</th>
+                    <th>Добавить</th>
+                    <th>Изобрежение</th>
+                    <th>Цена</th>
+                    <th>Категория</th>
+                    <th>Размер</th>
+                    <th>Цвет</th>
+                    <th>Описание</th>
+                    <th>Действии</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -148,7 +148,8 @@ const Products = () => {
                                 data-bs-target="#editProductModal"
                                 onClick={() => setProductId(p._id)}
                               >
-                                <i class="bx bx-edit-alt me-1"></i> Edit
+                                <i class="bx bx-edit-alt me-1"></i>{" "}
+                                Редактировать
                               </button>
                               <button
                                 class="dropdown-item"
@@ -156,7 +157,7 @@ const Products = () => {
                                 data-bs-target="#deleteProductModal"
                                 onClick={() => setProductId(p._id)}
                               >
-                                <i class="bx bx-trash me-1"></i> Delete
+                                <i class="bx bx-trash me-1"></i> Удалить
                               </button>
                             </div>
                           </div>

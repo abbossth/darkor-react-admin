@@ -36,6 +36,8 @@ export const AddCategoryModal = () => {
           },
         }
       );
+      setImage("");
+      setName("");
     } catch (err) {
       console.log(`Error in Creating Category: ${err}`);
     }
@@ -53,7 +55,7 @@ export const AddCategoryModal = () => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addCategoryModalLabel">
-              Create Category
+              Добавить Категорию
             </h5>
             <button
               type="button"
@@ -66,13 +68,13 @@ export const AddCategoryModal = () => {
             <form action="">
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Title
+                  Заголовок
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="Ichimliklar"
+                  placeholder="Напитки"
                   aria-describedby="defaultFormControlHelp"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -83,7 +85,7 @@ export const AddCategoryModal = () => {
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">
-                  Upload Image
+                  Загрузить Изобрежение
                 </label>
                 <input
                   class="form-control"
@@ -107,7 +109,7 @@ export const AddCategoryModal = () => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               onClick={() => handleCreateCategory(name)}
@@ -116,7 +118,7 @@ export const AddCategoryModal = () => {
               data-bs-toggle="modal"
               data-bs-target="#addCategoryModal"
             >
-              CREATE
+              Создать
             </button>
           </div>
         </div>

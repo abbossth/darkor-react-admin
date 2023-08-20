@@ -72,6 +72,17 @@ export const AddProductModal = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
+      if (res) {
+        setTitle("");
+        setPrice(0);
+        setColor("");
+        setSize("");
+        setDescription("");
+        setImage("");
+        setFile(null);
+        setCategoryId("");
+        console.log("Success....");
+      }
       console.log(res?.data);
     } catch (error) {
       console.log(`Error in product ${error}`);
@@ -92,7 +103,7 @@ export const AddProductModal = () => {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="addProductModalLabel">
-              Create Product
+              Добавить Товар
             </h5>
             <button
               type="button"
@@ -105,13 +116,13 @@ export const AddProductModal = () => {
             <form action="">
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Title
+                  Заголовок
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="TERRA PRO | Fultbolka ..."
                   aria-describedby="defaultFormControlHelp"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -122,14 +133,15 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="largeSelect" class="form-label">
-                  Category
+                  Категория
                 </label>
                 <select
                   id="largeSelect"
                   class="form-select form-select"
+                  value={"default"}
                   onChange={(e) => setCategoryId(e.target.value)}
                 >
-                  <option value={null}>Select category</option>
+                  <option value={"default"}>Выберите Категорию</option>
                   {categories?.map((c) => (
                     <option value={c._id}>{c.name}</option>
                   ))}
@@ -137,13 +149,13 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Price
+                  Цена
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="85,000"
                   aria-describedby="defaultFormControlHelp"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
@@ -154,13 +166,13 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Size
+                  Размер
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="53, XL"
                   aria-describedby="defaultFormControlHelp"
                   value={size}
                   onChange={(e) => setSize(e.target.value)}
@@ -171,13 +183,13 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="defaultFormControlInput" class="form-label">
-                  Color
+                  Цвет
                 </label>
                 <input
                   type="text"
                   class="form-control"
                   id="defaultFormControlInput"
-                  placeholder="John Doe"
+                  placeholder="Черный,..."
                   aria-describedby="defaultFormControlHelp"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
@@ -188,20 +200,20 @@ export const AddProductModal = () => {
               </div>
               <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">
-                  Description (optional)
+                  Описание (Необязательно)
                 </label>
                 <textarea
                   class="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
-                  placeholder="Bu mahsulotimiz..."
+                  placeholder="Этот товар..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">
-                  Upload Image
+                  Загрузить Изобрежение
                 </label>
                 <input
                   class="form-control"
@@ -225,7 +237,7 @@ export const AddProductModal = () => {
               class="btn btn-secondary"
               data-bs-dismiss="modal"
             >
-              Cancel
+              Отмена
             </button>
             <button
               onClick={handleCreateProduct}
@@ -234,7 +246,7 @@ export const AddProductModal = () => {
               data-bs-toggle="modal"
               data-bs-target="#addProductModal"
             >
-              CREATE
+              Создать
             </button>
           </div>
         </div>
