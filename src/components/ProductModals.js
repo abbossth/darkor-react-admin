@@ -133,7 +133,7 @@ export const AddProductModal = () => {
                 <select
                   id="largeSelect"
                   class="form-select form-select"
-                  value={"default"}
+                  value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
                 >
                   <option value={"default"}>Выберите Категорию</option>
