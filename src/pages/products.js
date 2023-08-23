@@ -87,7 +87,7 @@ const Products = () => {
                     <th>Цена</th>
                     <th>Категория</th>
                     <th>Размер</th>
-                    <th>Цвет</th>
+                    {/* <th>Цвет</th> */}
                     <th>Описание</th>
                     <th>Действии</th>
                   </tr>
@@ -111,24 +111,28 @@ const Products = () => {
                         </td>
                         <td>{p.price} UZS</td>
                         <td>
-                          <span class="badge bg-label-primary me-1">
+                          <span class="badge bg-label-dark me-1 px-2 py-1">
                             {p?.categoryId?.name}
                           </span>
                         </td>
                         <td>
                           {p.size?.map((s, idx) => (
-                            <div key={idx} class="badge bg-label-warning me-1">
+                            <span
+                              key={idx}
+                              class="text-danger fw-bold text-uppercase me-1"
+                            >
                               {s}
-                            </div>
+                              {p.size.length - 1 === idx ? "" : ","}
+                            </span>
                           ))}
                         </td>
-                        <td>
+                        {/* <td>
                           {p.color?.map((c, idx) => (
                             <div key={idx} class="badge bg-label-info me-1">
                               {c}
                             </div>
                           ))}
-                        </td>
+                        </td> */}
                         <td>{p.description}</td>
                         <td>
                           <div class="dropdown">
