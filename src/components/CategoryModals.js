@@ -96,7 +96,7 @@ export const AddCategoryModal = () => {
               </div>
               {image.length ? (
                 <div class="mb-3">
-                  <img src={`${image}`} alt="uploaded image" width={200} />
+                  <img src={`${image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
                 ""
@@ -147,6 +147,7 @@ export const EditCategoryModal = ({ id }) => {
     if (id) {
       fetchCategory();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleImageUpload = async (e) => {
@@ -237,7 +238,7 @@ export const EditCategoryModal = ({ id }) => {
                 <div class="mb-3">
                   <img
                     src={`${category?.image}`}
-                    alt="uploaded image"
+                    alt="uploaded"
                     width={200}
                   />
                 </div>
@@ -273,7 +274,7 @@ export const EditCategoryModal = ({ id }) => {
 export const DeleteCategoryModal = ({ id }) => {
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`/api/v1/category/${id}`);
+      await axios.delete(`/api/v1/category/${id}`);
     } catch (error) {
       console.log(`Error in deleting category ${error}`);
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import Select from "react-select";
-import { colourOptions, sizeOptions } from "../utils/utils";
+import { sizeOptions } from "../utils/utils";
 
 export const AddProductModal = () => {
   const [title, setTitle] = useState("");
@@ -38,6 +38,7 @@ export const AddProductModal = () => {
     if (file) {
       uploadImage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   const fetchCategories = async () => {
@@ -238,7 +239,7 @@ export const AddProductModal = () => {
               </div>
               {image.length ? (
                 <div class="mb-3">
-                  <img src={`${image}`} alt="uploaded image" width={200} />
+                  <img src={`${image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
                 ""
@@ -325,7 +326,7 @@ export const EditProductModal = ({ id }) => {
 
   const handleEditProduct = async () => {
     try {
-      const res = await axios.patch(`/api/v1/product/${id}`, {
+      await axios.patch(`/api/v1/product/${id}`, {
         title: product.title,
         name: product.title,
         categoryId: product.categoryId._id,
@@ -352,14 +353,16 @@ export const EditProductModal = ({ id }) => {
     setSelectDefaultValues(sizes);
     // console.log(product, selectDefaultValues, sizeOptions);
     console.log([selectDefaultValues[0]]);
-  }, [product]);
+  }, [product, selectDefaultValues]);
 
   useEffect(() => {
     if (file) uploadImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   useEffect(() => {
     if (id) fetchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
@@ -522,7 +525,7 @@ export const EditProductModal = ({ id }) => {
                 <div class="mb-3">
                   <img
                     src={`${product.image}`}
-                    alt="uploaded image"
+                    alt="uploaded"
                     width={200}
                   />
                 </div>
@@ -558,7 +561,7 @@ export const EditProductModal = ({ id }) => {
 export const DeleteProductModal = ({ id }) => {
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`/api/v1/product/${id}`);
+      await axios.delete(`/api/v1/product/${id}`);
     } catch (error) {
       console.log(`Error in deleting category ${error}`);
     }

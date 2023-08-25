@@ -24,6 +24,7 @@ const NavbarTop = () => {
 
   useEffect(() => {
     fetchSearchProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchString]);
 
   const handleLogOut = () => {
@@ -49,7 +50,7 @@ const NavbarTop = () => {
     };
 
     getAdminProfile();
-  }, []);
+  }, [accessToken, navigate]);
 
   return (
     <nav
@@ -104,7 +105,7 @@ const NavbarTop = () => {
             </span>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a class="dropdown-item" href="#">
+                <span class="dropdown-item">
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
@@ -122,7 +123,7 @@ const NavbarTop = () => {
                       <small class="text-muted">Admin</small>
                     </div>
                   </div>
-                </a>
+                </span>
               </li>
               <li>
                 <div class="dropdown-divider"></div>

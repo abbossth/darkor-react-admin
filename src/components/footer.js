@@ -8,6 +8,7 @@ const Footer = () => {
             href="https://darkor.uz"
             target="_blank"
             class="footer-link fw-bolder"
+            rel="noreferrer"
           >
             Darkor
           </a>
@@ -17,6 +18,7 @@ const Footer = () => {
             href="https://themeselection.com/documentation"
             target="_blank"
             class="footer-link me-4"
+            rel="noreferrer"
           >
             Documentation
           </a>

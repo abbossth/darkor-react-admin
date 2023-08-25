@@ -2469,7 +2469,7 @@ textarea.form-control-lg {
   background-size: contain;
   border: 1px solid #d9dee3;
   appearance: none;
-  color-adjust: exact;
+  print-color-adjust: exact;
 }
 .form-check-input[type="checkbox"] {
   border-radius: 0.25em;

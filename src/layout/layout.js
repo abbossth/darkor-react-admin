@@ -14,7 +14,7 @@ const Layout = () => {
   useEffect(() => {
     const checkTokenValid = async () => {
       try {
-        const res = await axios.get("/api/v1/admins/get/me", {
+        await axios.get("/api/v1/admins/get/me", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const Layout = () => {
     };
 
     checkTokenValid();
-  }, []);
+  }, [accessToken, navigate]);
 
   return (
     <div class="layout-wrapper layout-content-navbar">
