@@ -183,15 +183,6 @@ export const AddProductModal = () => {
                   classNamePrefix="select"
                   onChange={handleSizeChange}
                 />
-                {/* <input
-                  type="text"
-                  class="form-control"
-                  id="defaultFormControlInput"
-                  placeholder="53, XL"
-                  aria-describedby="defaultFormControlHelp"
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                /> */}
                 <div id="defaultFormControlHelp" class="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
@@ -351,6 +342,7 @@ export const EditProductModal = ({ id }) => {
     let sizes = [];
     product?.size?.forEach((p) => sizes.push({ value: p, label: p }));
     setSelectDefaultValues(sizes);
+    console.log(selectDefaultValues);
   }, [product]);
 
   useEffect(() => {
