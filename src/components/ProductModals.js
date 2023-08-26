@@ -351,9 +351,7 @@ export const EditProductModal = ({ id }) => {
     let sizes = [];
     product?.size?.forEach((p) => sizes.push({ value: p, label: p }));
     setSelectDefaultValues(sizes);
-    // console.log(product, selectDefaultValues, sizeOptions);
-    console.log([selectDefaultValues[0]]);
-  }, [product, selectDefaultValues]);
+  }, [product]);
 
   useEffect(() => {
     if (file) uploadImage();
@@ -523,11 +521,7 @@ export const EditProductModal = ({ id }) => {
               </div>
               {product?.image?.length ? (
                 <div class="mb-3">
-                  <img
-                    src={`${product.image}`}
-                    alt="uploaded"
-                    width={200}
-                  />
+                  <img src={`${product.image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
                 ""
