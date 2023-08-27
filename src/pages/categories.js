@@ -9,12 +9,11 @@ import Loader from "../components/loader";
 import ReactPaginate from "react-paginate";
 
 const Categories = () => {
-  const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchCategories = async () => {
