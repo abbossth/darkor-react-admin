@@ -13,7 +13,7 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const [currentItems, setCurrentItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchProducts = async () => {
@@ -22,7 +22,6 @@ const Products = () => {
       const res = await axios.get(
         `/api/v1/product?page=${currentPage}&limit=${itemsPerPage}`
       );
-      console.log(res?.data?.data?.data);
       setItemsPerPage(res?.data?.data?.data?.page?.limit);
       setTotalPages(res?.data?.data?.data?.page?.totalPages);
       setCurrentItems(res?.data?.data?.data?.filteredData);
@@ -201,11 +200,15 @@ const Products = () => {
             <div className="d-flex justify-content-center">
               <ReactPaginate
                 breakLabel="..."
-                nextLabel="next >"
-                previousLabel="< previous"
+                nextLabel=">"
+                previousLabel="<"
+                previousClassName="page-item"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                previousLinkClassName="page-link"
                 onPageChange={handlePageClick}
                 pageCount={totalPages}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={2}
                 renderOnZeroPageCount={null}
                 containerClassName="pagination"
                 disabledClassName="disabled"

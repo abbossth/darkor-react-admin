@@ -6,17 +6,26 @@ import {
 } from "../components/CategoryModals";
 import axios from "../api/axios";
 import Loader from "../components/loader";
+import ReactPaginate from "react-paginate";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [totalPages, setTotalPages] = useState(1);
 
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/v1/category`);
-      setCategories(res?.data?.data?.data?.categories);
+      const res = await axios.get(
+        `/api/v1/category?page=${currentPage}&limit=${itemsPerPage}`
+      );
+      setItemsPerPage(res?.data?.data?.data?.pagenation?.limit);
+      setCurrentItems(res?.data?.data?.data?.categories);
+      setTotalPages(res?.data?.data?.data?.pagenation?.totalPages);
       setTimeout(() => {
         setLoading(false);
       }, 1000);
@@ -28,9 +37,13 @@ const Categories = () => {
     }
   };
 
+  const handlePageClick = (e) => {
+    setCurrentPage(e?.selected + 1);
+  };
+
   useEffect(() => {
     fetchCategories();
-  }, [categoryId]);
+  }, [categoryId, currentPage]);
 
   return (
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -82,10 +95,14 @@ const Categories = () => {
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                {categories.map((c, idx) => {
+                {currentItems.map((c, idx) => {
+                  const curr =
+                    currentPage === 1
+                      ? currentPage + idx
+                      : currentPage * itemsPerPage - (itemsPerPage - 1) + idx;
                   return (
                     <tr key={c._id}>
-                      <td>{idx + 1}</td>
+                      <td>{curr}</td>
                       <td>{c.name}</td>
                       <td>
                         <img
@@ -135,6 +152,30 @@ const Categories = () => {
             </table>
           </div>
         )}
+        {
+          <div className={`row my-3 ${loading && "d-none"}`}>
+            <div className="d-flex justify-content-center">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel=">"
+                previousLabel="<"
+                previousClassName="page-item"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                previousLinkClassName="page-link"
+                onPageChange={handlePageClick}
+                pageCount={totalPages}
+                pageRangeDisplayed={2}
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                disabledClassName="disabled"
+                activeClassName="active"
+                pageLinkClassName="page-link"
+                pageClassName="page-item"
+              />
+            </div>
+          </div>
+        }
       </div>
       <AddCategoryModal />
       <EditCategoryModal id={categoryId} />
