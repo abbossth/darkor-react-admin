@@ -6,17 +6,26 @@ import {
 } from "../components/ProductModals";
 import axios from "../api/axios";
 import Loader from "../components/loader";
+import ReactPaginate from "react-paginate";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [totalPages, setTotalPages] = useState(1);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/api/v1/product`);
-      setProducts(res?.data?.data?.data?.filteredData);
+      const res = await axios.get(
+        `/api/v1/product?page=${currentPage}&limit=${itemsPerPage}`
+      );
+      console.log(res?.data?.data?.data);
+      setItemsPerPage(res?.data?.data?.data?.page?.limit);
+      setTotalPages(res?.data?.data?.data?.page?.totalPages);
+      setCurrentItems(res?.data?.data?.data?.filteredData);
       setTimeout(() => {
         setLoading(false);
       }, 1000);
@@ -28,9 +37,13 @@ const Products = () => {
     }
   };
 
+  const handlePageClick = (e) => {
+    setCurrentPage(e?.selected + 1);
+  };
+
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   return (
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -56,7 +69,7 @@ const Products = () => {
               className="btn"
               type="button"
               title={`Перезагрузить`}
-              onClick={fetchProducts}
+              onClick={() => fetchProducts()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,109 +85,137 @@ const Products = () => {
           <Loader />
         ) : (
           <div class="table-responsive text-nowrap">
-            {!products.length && (
+            {!currentItems.length && (
               <div class={"w-100 d-flex justify-content-center"}>
                 <p class="text-center">Информация не найдена...</p>
               </div>
             )}
-            {products.length ? (
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Добавить</th>
-                    <th>Изобрежание</th>
-                    <th>Цена</th>
-                    <th>Категория</th>
-                    <th>Размер</th>
-                    {/* <th>Цвет</th> */}
-                    <th>Описание</th>
-                    <th>Действии</th>
-                  </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                  {products.map((p, idx) => {
-                    return (
-                      <tr key={p._id}>
-                        <td>{idx + 1}</td>
-                        <td>{p.title}</td>
-                        <td>
-                          <img
-                            width="75"
-                            src={
-                              p.image?.includes("http")
-                                ? p.image
-                                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNf0nvvXE7AVsg2EiONsgZoJS779DTMi89zw&usqp=CAU"
-                            }
-                            alt="coke"
-                          />
-                        </td>
-                        <td>{p.price} UZS</td>
-                        <td>
-                          <span class="badge bg-label-dark me-1 px-2 py-1">
-                            {p?.categoryId?.name}
-                          </span>
-                        </td>
-                        <td>
-                          {p.size?.map((s, idx) => (
-                            <span
-                              key={idx}
-                              class="text-danger fw-bold text-uppercase me-1"
-                            >
-                              {s}
-                              {p.size.length - 1 === idx ? "" : ","}
+            {currentItems.length ? (
+              <>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Добавить</th>
+                      <th>Изобрежание</th>
+                      <th>Цена</th>
+                      <th>Категория</th>
+                      <th>Размер</th>
+                      {/* <th>Цвет</th> */}
+                      <th>Описание</th>
+                      <th>Действии</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-border-bottom-0">
+                    {currentItems?.map((p, idx) => {
+                      const curr =
+                        currentPage === 1
+                          ? currentPage + idx
+                          : currentPage * itemsPerPage -
+                            (itemsPerPage - 1) +
+                            idx;
+                      return (
+                        <tr key={p._id}>
+                          <td>{curr}</td>
+                          <td>{p.title}</td>
+                          <td>
+                            <img
+                              width="75"
+                              src={
+                                p.image?.includes("http")
+                                  ? p.image
+                                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNf0nvvXE7AVsg2EiONsgZoJS779DTMi89zw&usqp=CAU"
+                              }
+                              alt="coke"
+                            />
+                          </td>
+                          <td>{p.price} UZS</td>
+                          <td>
+                            <span class="badge bg-label-dark me-1 px-2 py-1">
+                              {p?.categoryId?.name}
                             </span>
-                          ))}
-                        </td>
-                        {/* <td>
+                          </td>
+                          <td>
+                            {p.size?.map((s, idx) => (
+                              <span
+                                key={idx}
+                                class="text-danger fw-bold text-uppercase me-1"
+                              >
+                                {s}
+                                {p.size.length - 1 === idx ? "" : ","}
+                              </span>
+                            ))}
+                          </td>
+                          {/* <td>
                           {p.color?.map((c, idx) => (
                             <div key={idx} class="badge bg-label-info me-1">
                               {c}
                             </div>
                           ))}
                         </td> */}
-                        <td>{p.description}</td>
-                        <td>
-                          <div class="dropdown">
-                            <button
-                              type="button"
-                              class="btn p-0 dropdown-toggle hide-arrow"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
+                          <td>{p.description}</td>
+                          <td>
+                            <div class="dropdown">
                               <button
-                                class="dropdown-item"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editProductModal"
-                                onClick={() => setProductId(p._id)}
+                                type="button"
+                                class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
-                                <i class="bx bx-edit-alt me-1"></i>{" "}
-                                Редактировать
+                                <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
-                              <button
-                                class="dropdown-item"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteProductModal"
-                                onClick={() => setProductId(p._id)}
-                              >
-                                <i class="bx bx-trash me-1"></i> Удалить
-                              </button>
+                              <div class="dropdown-menu">
+                                <button
+                                  class="dropdown-item"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#editProductModal"
+                                  onClick={() => setProductId(p._id)}
+                                >
+                                  <i class="bx bx-edit-alt me-1"></i>{" "}
+                                  Редактировать
+                                </button>
+                                <button
+                                  class="dropdown-item"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#deleteProductModal"
+                                  onClick={() => setProductId(p._id)}
+                                >
+                                  <i class="bx bx-trash me-1"></i> Удалить
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </>
             ) : (
               ""
             )}
           </div>
         )}
+        {
+          <div className={`row my-3 ${loading && "d-none"}`}>
+            <div className="d-flex justify-content-center">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="next >"
+                previousLabel="< previous"
+                onPageChange={handlePageClick}
+                pageCount={totalPages}
+                pageRangeDisplayed={3}
+                renderOnZeroPageCount={null}
+                containerClassName="pagination"
+                disabledClassName="disabled"
+                activeClassName="active"
+                pageLinkClassName="page-link"
+                pageClassName="page-item"
+              />
+            </div>
+          </div>
+        }
       </div>
       <AddProductModal />
       <EditProductModal id={productId} />
