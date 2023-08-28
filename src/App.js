@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.css";
 import "./assets/css/core.css";
 import "./assets/css/demo.css";
 import "./assets/css/theme-default.css";

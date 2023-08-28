@@ -21,9 +21,12 @@ const Layout = () => {
           },
         });
       } catch (err) {
-        console.log(`AccessToken is not Valid ${err}`);
-        removeCookies("accessToken");
-        navigate("/login");
+        console.log(err?.response?.status);
+        if (err?.response?.status === 401) {
+          removeCookies("accessToken");
+          navigate("/login");
+        }
+        console.log(`Unhandled Error while fetching admin me ${err}`);
       }
     };
 

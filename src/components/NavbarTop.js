@@ -28,8 +28,12 @@ const NavbarTop = () => {
   }, [searchString]);
 
   const handleLogOut = () => {
-    removeCookies("accessToken");
-    navigate("/login", { replace: true });
+    if (window.confirm("Are you really want to log out?")) {
+      removeCookies("accessToken");
+      navigate("/login", { replace: true });
+    } else {
+      return;
+    }
   };
 
   useEffect(() => {
@@ -129,7 +133,10 @@ const NavbarTop = () => {
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <span class="dropdown-item" onClick={handleLogOut}>
+                <span
+                  class="dropdown-item cursor-pointer"
+                  onClick={handleLogOut}
+                >
                   <i class="bx bx-power-off me-2"></i>
                   <span class="align-middle">Log Out</span>
                 </span>

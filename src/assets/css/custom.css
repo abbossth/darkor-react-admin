@@ -23,7 +23,17 @@
   align-items: center;
 }
 
+.dr-login-card {
+  width: 80%;
+}
+
 .dr-loader-container {
   width: 100%;
   min-height: 10vh;
+}
+
+@media screen and (max-width: 768px) {
+  .dr-login-card {
+    width: 100%;
+  }
 }

@@ -3,6 +3,8 @@ import Logo from "../assets/images/logo-darkor-removebg.png";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { getCookies, setCookies } from "../hooks/useCookies";
+import Toast from "../components/toast";
+import ReactInputMask from "react-input-mask";
 
 const Login = () => {
   const location = useLocation();
@@ -11,6 +13,9 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const accessToken = getCookies("accessToken") || "";
+  const [toggle, setToggle] = useState(false);
+  const [toastData, setToastData] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (accessToken.length) {
     return <Navigate to={from} replace />;
@@ -18,12 +23,12 @@ const Login = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (!username.length || !password.length) return;
+    setLoading(true);
     try {
       const res = await axios.post(
         "/api/v1/admins/auth/sign-in",
         JSON.stringify({
-          phone: username,
+          phone: `${username[1]}${username[2]}${username[5]}${username[6]}${username[7]}${username[9]}${username[10]}${username[12]}${username[13]}`,
           password: password,
         }),
         {
@@ -32,12 +37,22 @@ const Login = () => {
           },
         }
       );
-      console.log("login", res?.data?.data?.token);
       setCookies("accessToken", res?.data?.data?.token);
       clearForm();
+      setLoading(false);
       navigate(from, { replace: true });
     } catch (error) {
-      console.log("error", error);
+      if (!error?.response?.data?.success) {
+        setToggle(true);
+        if (error?.response?.data?.data?.[0]?.msg) {
+          setToastData(error?.response?.data?.data?.[0]?.msg);
+        } else {
+          setToastData(error?.response?.data?.error?.message);
+        }
+      } else {
+        console.log(`Unhandled Error ${error}`);
+      }
+      setLoading(false);
     }
   };
 
@@ -50,21 +65,25 @@ const Login = () => {
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner dr-login-container">
-          <div class="card">
+          <div class="card dr-login-card">
             <div class="card-body">
-              <div class="app-brand justify-content-center">
-                <a href="index.html" class="app-brand-link gap-2">
+              <div
+                class="app-brand justify-content-center"
+                id="liveToastBtn"
+                onClick={() => setToggle(true)}
+              >
+                <div class="app-brand-link gap-2">
                   <span class="app-brand-logo demo">
                     <img src={Logo} alt="logo" width="100" />
                   </span>
                   <span class="app-brand-text demo text-body fw-bolder text-uppercase">
                     Darkor
                   </span>
-                </a>
+                </div>
               </div>
-              <p class="mb-4">
+              {/* <p class="mb-4">
                 Please sign-in to your account in order to access admin panel.
-              </p>
+              </p> */}
 
               <form
                 id="formAuthentication"
@@ -73,10 +92,21 @@ const Login = () => {
                 method="GET"
               >
                 <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email or Username
+                  <label for="username" class="form-label">
+                    Phone Number
                   </label>
-                  <input
+                  <ReactInputMask
+                    mask="(99) 999-99-99"
+                    maskChar={"_"}
+                    type="text"
+                    className="form-control"
+                    id="username"
+                    alwaysShowMask="true"
+                    placeholder="Telefon raqamingizni kiriting..."
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  {/* <input
                     type="text"
                     class="form-control"
                     id="email"
@@ -85,16 +115,26 @@ const Login = () => {
                     autofocus=""
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                  />
+                  /> */}
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
                     <label class="form-label" for="password">
                       Password
                     </label>
-                    <a href="auth-forgot-password-basic.html">
-                      <small>Forgot Password?</small>
-                    </a>
+                    <div>
+                      <small
+                        className="text-primary cursor-pointer"
+                        onClick={() => {
+                          setToastData(
+                            "Call to our Adminstrators: +998 91 798 36 06"
+                          );
+                          setToggle(true);
+                        }}
+                      >
+                        Forgot Password?
+                      </small>
+                    </div>
                   </div>
                   <div class="input-group input-group-merge">
                     <input
@@ -127,24 +167,33 @@ const Login = () => {
                 <div class="mb-3">
                   <button
                     onClick={handleSignIn}
-                    class="btn btn-primary d-grid w-100"
+                    class="btn btn-primary d-flex justify-content-center align-items-center w-100"
                     type="submit"
+                    disabled={loading === true}
                   >
-                    Sign in
+                    <span className="fw-bold me-2">Kirish</span>
+                    {loading && (
+                      <span
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    )}
                   </button>
                 </div>
               </form>
-
+              {/* 
               <p class="text-center">
                 <span>New on our platform?</span>
                 <Link to="/products">
                   <span>Create an account</span>
                 </Link>
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
       </div>
+      <Toast toggle={toggle} setToggle={setToggle} data={toastData} />
     </div>
   );
 };
