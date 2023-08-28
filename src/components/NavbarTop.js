@@ -58,28 +58,28 @@ const NavbarTop = () => {
 
   return (
     <nav
-      class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+      className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
       id="layout-navbar"
     >
-      <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+      <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <span
           onClick={() => htmlTag.classList.add("layout-menu-expanded")}
-          class="nav-item nav-link px-0 me-xl-4"
+          className="nav-item nav-link px-0 me-xl-4"
         >
-          <i class="bx bx-menu bx-sm"></i>
+          <i className="bx bx-menu bx-sm"></i>
         </span>
       </div>
 
       <div
-        class="navbar-nav-right d-flex align-items-center"
+        className="navbar-nav-right d-flex align-items-center"
         id="navbar-collapse"
       >
-        <div class="navbar-nav align-items-center">
-          <div class="nav-item d-flex align-items-center">
-            <i class="bx bx-search fs-4 lh-0"></i>
+        <div className="navbar-nav align-items-center">
+          <div className="nav-item d-flex align-items-center">
+            <i className="bx bx-search fs-4 lh-0"></i>
             <input
               type="text"
-              class="form-control border-0 shadow-none"
+              className="form-control border-0 shadow-none"
               placeholder="Поиск..."
               aria-label="Search"
               value={searchString}
@@ -88,57 +88,57 @@ const NavbarTop = () => {
           </div>
         </div>
 
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
-          <li class="nav-item lh-1 me-3">
+        <ul className="navbar-nav flex-row align-items-center ms-auto">
+          <li className="nav-item lh-1 me-3">
             <span></span>
           </li>
 
-          <li class="nav-item navbar-dropdown dropdown-user dropdown">
+          <li className="nav-item navbar-dropdown dropdown-user dropdown">
             <span
-              class="nav-link dropdown-toggle hide-arrow"
+              className="nav-link dropdown-toggle hide-arrow"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              <div class="avatar avatar-online">
+              <div className="avatar avatar-online">
                 <img
                   src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png"
                   alt=""
-                  class="w-px-40 h-auto rounded-circle"
+                  className="w-px-40 h-auto rounded-circle"
                 />
               </div>
             </span>
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <span class="dropdown-item">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0 me-3">
-                      <div class="avatar avatar-online">
+                <span className="dropdown-item">
+                  <div className="d-flex">
+                    <div className="flex-shrink-0 me-3">
+                      <div className="avatar avatar-online">
                         <img
                           src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png"
                           alt=""
-                          class="w-px-40 h-auto rounded-circle"
+                          className="w-px-40 h-auto rounded-circle"
                         />
                       </div>
                     </div>
-                    <div class="flex-grow-1">
-                      <span class="fw-semibold d-block">
+                    <div className="flex-grow-1">
+                      <span className="fw-semibold d-block">
                         {profile.fullName}
                       </span>
-                      <small class="text-muted">Admin</small>
+                      <small className="text-muted">Admin</small>
                     </div>
                   </div>
                 </span>
               </li>
               <li>
-                <div class="dropdown-divider"></div>
+                <div className="dropdown-divider"></div>
               </li>
               <li>
                 <span
-                  class="dropdown-item cursor-pointer"
+                  className="dropdown-item cursor-pointer"
                   onClick={handleLogOut}
                 >
-                  <i class="bx bx-power-off me-2"></i>
-                  <span class="align-middle">Log Out</span>
+                  <i className="bx bx-power-off me-2"></i>
+                  <span className="align-middle">Log Out</span>
                 </span>
               </li>
             </ul>

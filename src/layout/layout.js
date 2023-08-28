@@ -34,23 +34,23 @@ const Layout = () => {
   }, [accessToken, navigate]);
 
   return (
-    <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
+    <div className="layout-wrapper layout-content-navbar">
+      <div className="layout-container">
         <AsideMenu />
-        <div class="layout-page">
+        <div className="layout-page">
           <NavbarTop />
-          <div class="content-wrapper">
+          <div className="content-wrapper">
             <Outlet />
           </div>
           <Footer />
-          <div class="content-backdrop fade"></div>
+          <div className="content-backdrop fade"></div>
         </div>
       </div>
       <div
         onClick={() => htmlTag.classList.remove("layout-menu-expanded")}
-        class="layout-overlay layout-menu-toggle"
+        className="layout-overlay layout-menu-toggle"
       ></div>
-      <div class="drag-target"></div>
+      <div className="drag-target"></div>
     </div>
   );
 };

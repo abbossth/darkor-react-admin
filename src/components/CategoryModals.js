@@ -45,57 +45,57 @@ export const AddCategoryModal = () => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="addCategoryModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="addCategoryModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-fullscreen-sm-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addCategoryModalLabel">
+      <div className="modal-dialog modal-fullscreen-sm-down">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="addCategoryModalLabel">
               Добавить Категорию
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form action="">
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Заголовок
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="Напитки"
                   aria-describedby="defaultFormControlHelp"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="formFile" className="form-label">
                   Загрузить Изобрежание
                 </label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="file"
                   id="formFile"
                   onChange={handleImageUpload}
                 />
               </div>
               {image.length ? (
-                <div class="mb-3">
+                <div className="mb-3">
                   <img src={`${image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
@@ -103,10 +103,10 @@ export const AddCategoryModal = () => {
               )}
             </form>
           </div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Отмена
@@ -114,7 +114,7 @@ export const AddCategoryModal = () => {
             <button
               onClick={() => handleCreateCategory(name)}
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#addCategoryModal"
             >
@@ -179,34 +179,34 @@ export const EditCategoryModal = ({ id }) => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="editCategoryModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="editCategoryModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-fullscreen-sm-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editCategoryModalLabel">
+      <div className="modal-dialog modal-fullscreen-sm-down">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="editCategoryModalLabel">
               Редактировать Категорию
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form action="">
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Заголовок
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="Напитки"
                   aria-describedby="defaultFormControlHelp"
@@ -215,49 +215,45 @@ export const EditCategoryModal = ({ id }) => {
                     setCategory({ ...category, name: e.target.value })
                   }
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
-              <div class="mb-3">
+              <div className="mb-3">
                 <label
-                  for="formFile"
-                  class="form-label"
+                  htmlFor="formFile"
+                  className="form-label"
                   onChange={handleImageUpload}
                 >
                   Загрузить Изобрежание
                 </label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="file"
                   id="formFile"
                   onChange={handleImageUpload}
                 />
               </div>
               {category?.image.length ? (
-                <div class="mb-3">
-                  <img
-                    src={`${category?.image}`}
-                    alt="uploaded"
-                    width={200}
-                  />
+                <div className="mb-3">
+                  <img src={`${category?.image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
                 ""
               )}
             </form>
           </div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Отмена
             </button>
             <button
               type="button"
-              class="btn btn-success"
+              className="btn btn-success"
               data-bs-toggle="modal"
               data-bs-target="#editCategoryModal"
               onClick={handleUpdateCategory}
@@ -282,39 +278,39 @@ export const DeleteCategoryModal = ({ id }) => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="deleteCategoryModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="deleteCategoryModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteCategoryModalLabel">
-              <div class="alert">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="deleteCategoryModalLabel">
+              <div className="alert">
                 Вы уверены, что хотите удалить эту категорию?
               </div>
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-body"></div>
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Отмена
             </button>
             <button
               type="button"
-              class="btn btn-danger"
+              className="btn btn-danger"
               onClick={handleDelete}
               data-bs-toggle="modal"
               data-bs-target="#deleteCategoryModal"

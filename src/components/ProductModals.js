@@ -2,17 +2,24 @@ import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import Select from "react-select";
 import { sizeOptions } from "../utils/utils";
+import Toast from "./toast";
 
 export const AddProductModal = () => {
-  const [title, setTitle] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  const [title, setTitle] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [price, setPrice] = useState(null);
-  const [size, setSize] = useState([]);
+  const [size, setSize] = useState([
+    sizeOptions[5].value,
+    sizeOptions[2].value,
+  ]);
   const [color, setColor] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const [toastData, setToastData] = useState("");
 
   const handleImageUpload = async (e) => {
     e.preventDefault();
@@ -34,13 +41,6 @@ export const AddProductModal = () => {
     }
   };
 
-  useEffect(() => {
-    if (file) {
-      uploadImage();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file]);
-
   const fetchCategories = async () => {
     try {
       const res = await axios.get(`/api/v1/category`);
@@ -56,10 +56,6 @@ export const AddProductModal = () => {
     setSize(sizes);
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   const productData = {
     name: title,
     title,
@@ -72,6 +68,7 @@ export const AddProductModal = () => {
   };
 
   const handleCreateProduct = async () => {
+    setLoading(true);
     try {
       const res = await axios.post(
         `/api/v1/product`,
@@ -82,97 +79,159 @@ export const AddProductModal = () => {
       );
       if (res) {
         setTitle("");
-        setPrice(0);
-        setColor("");
-        setSize([]);
+        setCategoryId("");
+        setPrice("");
+        setSize("");
         setDescription("");
         setImage("");
+        setTimeout(() => {
+          setTitle(null);
+          setCategoryId(null);
+          setPrice(null);
+          setSize(null);
+          setDescription(null);
+          setImage(null);
+        }, 300);
+        setLoading(false);
         setFile(null);
-        setCategoryId("");
+        setTimeout(() => {
+          setToggle(true);
+          setToastData("Product is successfully added to products list.");
+        }, 1000);
       }
+      console.log("ddd", res);
     } catch (error) {
+      setLoading(false);
+      if (error?.response?.status === 422) {
+        setToggle(true);
+        setToastData(
+          `${error?.response?.data?.data?.[0].msg} in ${error?.response?.data?.data?.[0].path}`
+        );
+      }
+      console.log(error?.response);
       console.log(`Error in product ${error}`);
     }
   };
 
+  useEffect(() => {
+    if (file) {
+      uploadImage();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="addProductModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="addProductModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-fullscreen-sm-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addProductModalLabel">
+      <div className="modal-dialog modal-fullscreen-sm-down">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="addProductModalLabel">
               Добавить Товар
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form action="">
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
-                  Заголовок
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
+                  Заголовок <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="TERRA PRO | Fultbolka ..."
                   aria-describedby="defaultFormControlHelp"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  onBlur={(e) => {
+                    if (title === null) return setTitle("");
+                  }}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
-                  We'll never share your details with anyone else.
+                <div
+                  id="defaultFormControlHelp"
+                  className={`form-text text-danger ${
+                    title?.length > 0 || title === null ? "d-none" : ""
+                  }`}
+                >
+                  Title cannot be empty
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="largeSelect" class="form-label">
-                  Категория
+              <div className="mb-3">
+                <label htmlFor="largeSelect" className="form-label">
+                  Категория <span className="text-danger">*</span>
                 </label>
                 <select
                   id="largeSelect"
-                  class="form-select form-select"
+                  className="form-select form-select"
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
+                  onBlur={(e) => {
+                    if (categoryId === null) return setCategoryId("");
+                  }}
                 >
-                  <option value={"default"}>Выберите Категорию</option>
+                  <option value={""}>Выберите Категорию</option>
                   {categories?.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}
                     </option>
                   ))}
                 </select>
+                <div
+                  id="defaultFormControlHelp"
+                  className={`form-text text-danger ${
+                    categoryId?.length > 0 || categoryId === null
+                      ? "d-none"
+                      : ""
+                  }`}
+                >
+                  Category cannot be unselected.
+                </div>
               </div>
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
-                  Цена
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
+                  Цена <span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="85,000"
                   aria-describedby="defaultFormControlHelp"
                   value={price}
+                  pattern="[0-9]*"
                   onChange={(e) => setPrice(e.target.value)}
+                  onBlur={(e) => {
+                    if (price === null) return setPrice("");
+                  }}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
-                  We'll never share your details with anyone else.
+                <div
+                  id="defaultFormControlHelp"
+                  className={`form-text text-danger ${
+                    price?.length > 0 || price === null ? "d-none" : ""
+                  }`}
+                >
+                  Price cannot be empty
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
-                  Размер
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
+                  Размер <span className="text-danger">*</span>
                 </label>
                 <Select
                   defaultValue={[sizeOptions[1], sizeOptions[4]]}
@@ -182,34 +241,45 @@ export const AddProductModal = () => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                   onChange={handleSizeChange}
+                  onBlur={(e) => {
+                    if (size === null) return setSize([]);
+                  }}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
-                  We'll never share your details with anyone else.
+                <div
+                  id="defaultFormControlHelp"
+                  className={`form-text text-danger ${
+                    size?.length > 0 || size === null ? "d-none" : ""
+                  }`}
+                >
+                  Size cannot be unchosen
                 </div>
               </div>
-              {/* <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              {/* <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Цвет
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="Черный,..."
                   aria-describedby="defaultFormControlHelp"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div> */}
-              <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">
-                  Описание (Необязательно)
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleFormControlTextarea1"
+                  className="form-label"
+                >
+                  Описание <span className="text-danger">*</span>
                 </label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
                   placeholder="Этот товар..."
@@ -217,19 +287,32 @@ export const AddProductModal = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
               </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
-                  Загрузить Изобрежание
+              <div className="mb-3">
+                <label htmlFor="formFile" className="form-label">
+                  Загрузить Изобрежание <span className="text-danger">*</span>
                 </label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="file"
                   id="formFile"
                   onChange={handleImageUpload}
+                  onBlur={(e) => {
+                    if (image === null) {
+                      return setImage("");
+                    }
+                  }}
                 />
+                <div
+                  id="defaultFormControlHelp"
+                  className={`form-text text-danger ${
+                    image?.length > 0 || image === null ? "d-none" : ""
+                  }`}
+                >
+                  Image field cannot be empty.
+                </div>
               </div>
-              {image.length ? (
-                <div class="mb-3">
+              {image?.length ? (
+                <div className="mb-3">
                   <img src={`${image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
@@ -237,10 +320,27 @@ export const AddProductModal = () => {
               )}
             </form>
           </div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
+              onClick={() => {
+                setTitle("");
+                setCategoryId("");
+                setPrice("");
+                setSize("");
+                setDescription("");
+                setImage("");
+                setTimeout(() => {
+                  setTitle(null);
+                  setCategoryId(null);
+                  setPrice(null);
+                  setSize(null);
+                  setDescription(null);
+                  setImage(null);
+                  setFile(null);
+                }, 300);
+              }}
               data-bs-dismiss="modal"
             >
               Отмена
@@ -248,15 +348,22 @@ export const AddProductModal = () => {
             <button
               onClick={handleCreateProduct}
               type="button"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addProductModal"
+              className="btn btn-primary d-flex justify-content-center align-items-center"
+              disabled={loading}
             >
-              Создать
+              <span className="fw-bold me-2">Создать</span>
+              {loading && (
+                <span
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              )}
             </button>
           </div>
         </div>
       </div>
+      <Toast toggle={toggle} setToggle={setToggle} data={toastData} />
     </div>
   );
 };
@@ -342,7 +449,6 @@ export const EditProductModal = ({ id }) => {
     let sizes = [];
     product?.size?.forEach((p) => sizes.push({ value: p, label: p }));
     setSelectDefaultValues(sizes);
-    console.log(selectDefaultValues);
   }, [product]);
 
   useEffect(() => {
@@ -361,34 +467,34 @@ export const EditProductModal = ({ id }) => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="editProductModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="editProductModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-fullscreen-sm-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editProductModalLabel">
+      <div className="modal-dialog modal-fullscreen-sm-down">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="editProductModalLabel">
               Редактировать Товар
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form action="">
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Заголовок
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="Banan.."
                   aria-describedby="defaultFormControlHelp"
@@ -397,17 +503,17 @@ export const EditProductModal = ({ id }) => {
                     setProduct({ ...product, title: e.target.value })
                   }
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="largeSelect" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="largeSelect" className="form-label">
                   Категория
                 </label>
                 <select
                   id="largeSelect"
-                  class="form-select form-select"
+                  className="form-select form-select"
                   value={product?.categoryId?._id}
                   onChange={(e) =>
                     setProduct({
@@ -427,13 +533,13 @@ export const EditProductModal = ({ id }) => {
                   ))}
                 </select>
               </div>
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Цена
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="15,000"
                   aria-describedby="defaultFormControlHelp"
@@ -442,12 +548,12 @@ export const EditProductModal = ({ id }) => {
                     setProduct({ ...product, price: e.target.value })
                   }
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
-              <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Размер
                 </label>
                 <Select
@@ -462,17 +568,17 @@ export const EditProductModal = ({ id }) => {
                   classNamePrefix="select"
                   onChange={handleSizeChange}
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div>
-              {/* <div class="mb-3">
-                <label for="defaultFormControlInput" class="form-label">
+              {/* <div className="mb-3">
+                <label htmlFor="defaultFormControlInput" className="form-label">
                   Цвет
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="defaultFormControlInput"
                   placeholder="Black..."
                   aria-describedby="defaultFormControlHelp"
@@ -481,16 +587,19 @@ export const EditProductModal = ({ id }) => {
                     setProduct({ ...product, color: e.target.value })
                   }
                 />
-                <div id="defaultFormControlHelp" class="form-text d-none">
+                <div id="defaultFormControlHelp" className="form-text d-none">
                   We'll never share your details with anyone else.
                 </div>
               </div> */}
-              <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleFormControlTextarea1"
+                  className="form-label"
+                >
                   Описание (Необязательно)
                 </label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id="exampleFormControlTextarea1"
                   rows="3"
                   placeholder="Bu mahsulotimiz..."
@@ -500,19 +609,19 @@ export const EditProductModal = ({ id }) => {
                   }
                 ></textarea>
               </div>
-              <div class="mb-3">
-                <label for="formFile" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="formFile" className="form-label">
                   Загрузить Изобрежание
                 </label>
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="file"
                   id="formFile"
                   onChange={handleImageUpload}
                 />
               </div>
               {product?.image?.length ? (
-                <div class="mb-3">
+                <div className="mb-3">
                   <img src={`${product.image}`} alt="uploaded" width={200} />
                 </div>
               ) : (
@@ -520,10 +629,10 @@ export const EditProductModal = ({ id }) => {
               )}
             </form>
           </div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Отмена
@@ -531,7 +640,7 @@ export const EditProductModal = ({ id }) => {
             <button
               onClick={handleEditProduct}
               type="button"
-              class="btn btn-success"
+              className="btn btn-success"
               data-bs-toggle="modal"
               data-bs-target="#editProductModal"
             >
@@ -555,39 +664,39 @@ export const DeleteProductModal = ({ id }) => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="deleteProductModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="deleteProductModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteProductModalLabel">
-              <div class="alert">
+      <div className="modal-dialog">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="deleteProductModalLabel">
+              <div className="alert">
                 Вы уверены, что хотите удалить этот продукт?
               </div>
             </h5>
             <button
               type="button"
-              class="btn-close"
+              className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer d-flex justify-content-start">
+          <div className="modal-body"></div>
+          <div className="modal-footer d-flex justify-content-start">
             <button
               type="button"
-              class="btn btn-secondary"
+              className="btn btn-secondary"
               data-bs-dismiss="modal"
             >
               Отмена
             </button>
             <button
               type="button"
-              class="btn btn-danger"
+              className="btn btn-danger"
               onClick={handleDelete}
               data-bs-toggle="modal"
               data-bs-target="#deleteProductModal"

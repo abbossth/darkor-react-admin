@@ -45,12 +45,12 @@ const Products = () => {
   }, [currentPage]);
 
   return (
-    <div class="container-xxl flex-grow-1 container-p-y">
-      <div class="row py-3">
-        <div class="col">
-          <div class="d-flex justify-content-end">
+    <div className="container-xxl flex-grow-1 container-p-y">
+      <div className="row py-3">
+        <div className="col">
+          <div className="d-flex justify-content-end">
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#addProductModal"
@@ -60,10 +60,10 @@ const Products = () => {
           </div>
         </div>
       </div>
-      <div class="card">
+      <div className="card">
         <div className="card-header row">
-          <h5 class="col">Товары</h5>
-          <div class="col d-flex justify-content-end">
+          <h5 className="col">Товары</h5>
+          <div className="col d-flex justify-content-end">
             <button
               className="btn"
               type="button"
@@ -83,15 +83,15 @@ const Products = () => {
         {loading ? (
           <Loader />
         ) : (
-          <div class="table-responsive text-nowrap">
+          <div className="table-responsive text-nowrap">
             {!currentItems.length && (
-              <div class={"w-100 d-flex justify-content-center"}>
-                <p class="text-center">Информация не найдена...</p>
+              <div className={"w-100 d-flex justify-content-center"}>
+                <p className="text-center">Информация не найдена...</p>
               </div>
             )}
             {currentItems.length ? (
               <>
-                <table class="table table-hover">
+                <table className="table table-hover">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -105,7 +105,7 @@ const Products = () => {
                       <th>Действии</th>
                     </tr>
                   </thead>
-                  <tbody class="table-border-bottom-0">
+                  <tbody className="table-border-bottom-0">
                     {currentItems?.map((p, idx) => {
                       const curr =
                         currentPage === 1
@@ -130,7 +130,7 @@ const Products = () => {
                           </td>
                           <td>{p.price} UZS</td>
                           <td>
-                            <span class="badge bg-label-dark me-1 px-2 py-1">
+                            <span className="badge bg-label-dark me-1 px-2 py-1">
                               {p?.categoryId?.name}
                             </span>
                           </td>
@@ -138,7 +138,7 @@ const Products = () => {
                             {p.size?.map((s, idx) => (
                               <span
                                 key={idx}
-                                class="text-danger fw-bold text-uppercase me-1"
+                                className="text-danger fw-bold text-uppercase me-1"
                               >
                                 {s}
                                 {p.size.length - 1 === idx ? "" : ","}
@@ -147,39 +147,39 @@ const Products = () => {
                           </td>
                           {/* <td>
                           {p.color?.map((c, idx) => (
-                            <div key={idx} class="badge bg-label-info me-1">
+                            <div key={idx} className="badge bg-label-info me-1">
                               {c}
                             </div>
                           ))}
                         </td> */}
                           <td>{p.description}</td>
                           <td>
-                            <div class="dropdown">
+                            <div className="dropdown">
                               <button
                                 type="button"
-                                class="btn p-0 dropdown-toggle hide-arrow"
+                                className="btn p-0 dropdown-toggle hide-arrow"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                               >
-                                <i class="bx bx-dots-vertical-rounded"></i>
+                                <i className="bx bx-dots-vertical-rounded"></i>
                               </button>
-                              <div class="dropdown-menu">
+                              <div className="dropdown-menu">
                                 <button
-                                  class="dropdown-item"
+                                  className="dropdown-item"
                                   data-bs-toggle="modal"
                                   data-bs-target="#editProductModal"
                                   onClick={() => setProductId(p._id)}
                                 >
-                                  <i class="bx bx-edit-alt me-1"></i>{" "}
+                                  <i className="bx bx-edit-alt me-1"></i>{" "}
                                   Редактировать
                                 </button>
                                 <button
-                                  class="dropdown-item"
+                                  className="dropdown-item"
                                   data-bs-toggle="modal"
                                   data-bs-target="#deleteProductModal"
                                   onClick={() => setProductId(p._id)}
                                 >
-                                  <i class="bx bx-trash me-1"></i> Удалить
+                                  <i className="bx bx-trash me-1"></i> Удалить
                                 </button>
                               </div>
                             </div>

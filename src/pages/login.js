@@ -74,37 +74,37 @@ const Login = () => {
   };
 
   return (
-    <div class="container-xxl">
-      <div class="authentication-wrapper authentication-basic container-p-y">
-        <div class="authentication-inner dr-login-container">
-          <div class="card dr-login-card">
-            <div class="card-body">
+    <div className="container-xxl">
+      <div className="authentication-wrapper authentication-basic container-p-y">
+        <div className="authentication-inner dr-login-container">
+          <div className="card dr-login-card">
+            <div className="card-body">
               <div
-                class="app-brand justify-content-center"
+                className="app-brand justify-content-center"
                 id="liveToastBtn"
                 onClick={() => setToggle(true)}
               >
-                <div class="app-brand-link gap-2">
-                  <span class="app-brand-logo demo">
+                <div className="app-brand-link gap-2">
+                  <span className="app-brand-logo demo">
                     <img src={Logo} alt="logo" width="100" />
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder text-uppercase">
+                  <span className="app-brand-text demo text-body fw-bolder text-uppercase">
                     Darkor
                   </span>
                 </div>
               </div>
-              {/* <p class="mb-4">
+              {/* <p className="mb-4">
                 Please sign-in to your account in order to access admin panel.
               </p> */}
 
               <form
                 id="formAuthentication"
-                class="mb-3"
+                className="mb-3"
                 action="/"
                 method="GET"
               >
-                <div class="mb-3">
-                  <label for="username" class="form-label">
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label">
                     Phone Number
                   </label>
                   <ReactInputMask
@@ -119,9 +119,9 @@ const Login = () => {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
-                <div class="mb-3 form-password-toggle">
-                  <div class="d-flex justify-content-between">
-                    <label class="form-label" for="password">
+                <div className="mb-3 form-password-toggle">
+                  <div className="d-flex justify-content-between">
+                    <label className="form-label" htmlFor="password">
                       Password
                     </label>
                     <div>
@@ -136,11 +136,11 @@ const Login = () => {
                       </small>
                     </div>
                   </div>
-                  <div class="input-group input-group-merge">
+                  <div className="input-group input-group-merge">
                     <input
                       type={type}
                       id="password"
-                      class="form-control"
+                      className="form-control"
                       name="password"
                       placeholder="············"
                       aria-describedby="password"
@@ -148,36 +148,36 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <span
-                      class="input-group-text cursor-pointer"
+                      className="input-group-text cursor-pointer"
                       onClick={handlePasswordIconToggle}
                     >
-                      <i class={`bx ${icon}`}></i>
+                      <i className={`bx ${icon}`}></i>
                     </span>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <div class="form-check">
+                <div className="mb-3">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       id="remember-me"
                     />
-                    <label class="form-check-label" for="remember-me">
+                    <label className="form-check-label" htmlFor="remember-me">
                       Remember Me
                     </label>
                   </div>
                 </div>
-                <div class="mb-3">
+                <div className="mb-3">
                   <button
                     onClick={handleSignIn}
-                    class="btn btn-primary d-flex justify-content-center align-items-center w-100"
+                    className="btn btn-primary d-flex justify-content-center align-items-center w-100"
                     type="submit"
-                    disabled={loading === true}
+                    disabled={loading}
                   >
                     <span className="fw-bold me-2">Kirish</span>
                     {loading && (
                       <span
-                        class="spinner-border spinner-border-sm"
+                        className="spinner-border spinner-border-sm"
                         role="status"
                         aria-hidden="true"
                       ></span>
@@ -186,7 +186,7 @@ const Login = () => {
                 </div>
               </form>
               {/* 
-              <p class="text-center">
+              <p className="text-center">
                 <span>New on our platform?</span>
                 <Link to="/products">
                   <span>Create an account</span>

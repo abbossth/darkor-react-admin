@@ -5850,7 +5850,7 @@ input:-internal-autofill-selected {
 .row-bordered > [class^="col "],
 .row-bordered > [class*=" col "],
 .row-bordered > [class$=" col"],
-.row-bordered > [class="col"] {
+.row-bordered > [className="col"] {
   position: relative;
   padding-top: 1px;
 }
@@ -5860,7 +5860,7 @@ input:-internal-autofill-selected {
 .row-bordered > [class^="col "]::before,
 .row-bordered > [class*=" col "]::before,
 .row-bordered > [class$=" col"]::before,
-.row-bordered > [class="col"]::before {
+.row-bordered > [className="col"]::before {
   content: "";
   position: absolute;
   right: 0;
@@ -5876,7 +5876,7 @@ input:-internal-autofill-selected {
 .row-bordered > [class^="col "]::after,
 .row-bordered > [class*=" col "]::after,
 .row-bordered > [class$=" col"]::after,
-.row-bordered > [class="col"]::after {
+.row-bordered > [className="col"]::after {
   content: "";
   position: absolute;
   top: 0;
@@ -5898,8 +5898,8 @@ input:-internal-autofill-selected {
 .row-bordered.row-border-light > [class*=" col "]::after,
 .row-bordered.row-border-light > [class$=" col"]::before,
 .row-bordered.row-border-light > [class$=" col"]::after,
-.row-bordered.row-border-light > [class="col"]::before,
-.row-bordered.row-border-light > [class="col"]::after {
+.row-bordered.row-border-light > [className="col"]::before,
+.row-bordered.row-border-light > [className="col"]::after {
   border-color: rgba(67, 89, 113, 0.1);
 }
 
@@ -7467,8 +7467,8 @@ button:focus {
 .nav-align-top .row-bordered > [class*=" col "]::after,
 .nav-align-top .row-bordered > [class$=" col"]::before,
 .nav-align-top .row-bordered > [class$=" col"]::after,
-.nav-align-top .row-bordered > [class="col"]::before,
-.nav-align-top .row-bordered > [class="col"]::after,
+.nav-align-top .row-bordered > [className="col"]::before,
+.nav-align-top .row-bordered > [className="col"]::after,
 .nav-align-right .row-bordered > [class^="col-"]::before,
 .nav-align-right .row-bordered > [class^="col-"]::after,
 .nav-align-right .row-bordered > [class*=" col-"]::before,
@@ -7479,8 +7479,8 @@ button:focus {
 .nav-align-right .row-bordered > [class*=" col "]::after,
 .nav-align-right .row-bordered > [class$=" col"]::before,
 .nav-align-right .row-bordered > [class$=" col"]::after,
-.nav-align-right .row-bordered > [class="col"]::before,
-.nav-align-right .row-bordered > [class="col"]::after,
+.nav-align-right .row-bordered > [className="col"]::before,
+.nav-align-right .row-bordered > [className="col"]::after,
 .nav-align-bottom .row-bordered > [class^="col-"]::before,
 .nav-align-bottom .row-bordered > [class^="col-"]::after,
 .nav-align-bottom .row-bordered > [class*=" col-"]::before,
@@ -7491,8 +7491,8 @@ button:focus {
 .nav-align-bottom .row-bordered > [class*=" col "]::after,
 .nav-align-bottom .row-bordered > [class$=" col"]::before,
 .nav-align-bottom .row-bordered > [class$=" col"]::after,
-.nav-align-bottom .row-bordered > [class="col"]::before,
-.nav-align-bottom .row-bordered > [class="col"]::after,
+.nav-align-bottom .row-bordered > [className="col"]::before,
+.nav-align-bottom .row-bordered > [className="col"]::after,
 .nav-align-left .row-bordered > [class^="col-"]::before,
 .nav-align-left .row-bordered > [class^="col-"]::after,
 .nav-align-left .row-bordered > [class*=" col-"]::before,
@@ -7503,8 +7503,8 @@ button:focus {
 .nav-align-left .row-bordered > [class*=" col "]::after,
 .nav-align-left .row-bordered > [class$=" col"]::before,
 .nav-align-left .row-bordered > [class$=" col"]::after,
-.nav-align-left .row-bordered > [class="col"]::before,
-.nav-align-left .row-bordered > [class="col"]::after {
+.nav-align-left .row-bordered > [className="col"]::before,
+.nav-align-left .row-bordered > [className="col"]::after {
   border-color: #d9dee3;
 }
 
@@ -8718,9 +8718,9 @@ button.list-group-item-gray.active {
 .card .row-bordered > [class^="col-"] .card .row-bordered > [class$=" col"],
 .card .row-bordered > [class^="col-"]::before,
 .card .row-bordered > [class^="col-"]::after,
-.card .row-bordered > [class="col"] .card .row-bordered > [class$=" col"],
-.card .row-bordered > [class="col"]::before,
-.card .row-bordered > [class="col"]::after {
+.card .row-bordered > [className="col"] .card .row-bordered > [class$=" col"],
+.card .row-bordered > [className="col"]::before,
+.card .row-bordered > [className="col"]::after {
   border-color: #d9dee3;
 }
 

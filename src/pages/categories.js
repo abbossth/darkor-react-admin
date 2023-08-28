@@ -45,12 +45,12 @@ const Categories = () => {
   }, [categoryId, currentPage]);
 
   return (
-    <div class="container-xxl flex-grow-1 container-p-y">
-      <div class="row py-3">
-        <div class="col">
-          <div class="d-flex justify-content-end">
+    <div className="container-xxl flex-grow-1 container-p-y">
+      <div className="row py-3">
+        <div className="col">
+          <div className="d-flex justify-content-end">
             <button
-              class="btn btn-primary"
+              className="btn btn-primary"
               type="button"
               data-bs-toggle="modal"
               data-bs-target="#addCategoryModal"
@@ -60,10 +60,10 @@ const Categories = () => {
           </div>
         </div>
       </div>
-      <div class="card">
+      <div className="card">
         <div className="card-header row">
-          <h5 class="col">Категории</h5>
-          <div class="col d-flex justify-content-end">
+          <h5 className="col">Категории</h5>
+          <div className="col d-flex justify-content-end">
             <button
               className="btn"
               type="button"
@@ -83,8 +83,8 @@ const Categories = () => {
         {loading ? (
           <Loader />
         ) : (
-          <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+          <div className="table-responsive text-nowrap">
+            <table className="table table-hover">
               <thead>
                 <tr>
                   <th>#</th>
@@ -93,7 +93,7 @@ const Categories = () => {
                   <th>ДЕЙСТВИЕ</th>
                 </tr>
               </thead>
-              <tbody class="table-border-bottom-0">
+              <tbody className="table-border-bottom-0">
                 {currentItems.map((c, idx) => {
                   const curr =
                     currentPage === 1
@@ -115,31 +115,32 @@ const Categories = () => {
                         />
                       </td>
                       <td>
-                        <div class="dropdown">
+                        <div className="dropdown">
                           <button
                             type="button"
-                            class="btn p-0 dropdown-toggle hide-arrow"
+                            className="btn p-0 dropdown-toggle hide-arrow"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
-                            <i class="bx bx-dots-vertical-rounded"></i>
+                            <i className="bx bx-dots-vertical-rounded"></i>
                           </button>
-                          <div class="dropdown-menu">
+                          <div className="dropdown-menu">
                             <button
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-toggle="modal"
                               data-bs-target="#editCategoryModal"
                               onClick={() => setCategoryId(c._id)}
                             >
-                              <i class="bx bx-edit-alt me-1"></i> Редактировать
+                              <i className="bx bx-edit-alt me-1"></i>{" "}
+                              Редактировать
                             </button>
                             <button
                               onClick={() => setCategoryId(c._id)}
-                              class="dropdown-item"
+                              className="dropdown-item"
                               data-bs-toggle="modal"
                               data-bs-target="#deleteCategoryModal"
                             >
-                              <i class="bx bx-trash me-1"></i> Удалить
+                              <i className="bx bx-trash me-1"></i> Удалить
                             </button>
                           </div>
                         </div>
