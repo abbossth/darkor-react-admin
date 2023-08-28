@@ -16,6 +16,8 @@ const Login = () => {
   const [toggle, setToggle] = useState(false);
   const [toastData, setToastData] = useState("");
   const [loading, setLoading] = useState(false);
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState("bx-hide");
 
   if (accessToken.length) {
     return <Navigate to={from} replace />;
@@ -59,6 +61,16 @@ const Login = () => {
   const clearForm = () => {
     setPassword("");
     setUsername("");
+  };
+
+  const handlePasswordIconToggle = () => {
+    if (type === "password") {
+      setIcon("bx-show");
+      setType("text");
+    } else {
+      setIcon("bx-hide");
+      setType("password");
+    }
   };
 
   return (
@@ -106,16 +118,6 @@ const Login = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
-                  {/* <input
-                    type="text"
-                    class="form-control"
-                    id="email"
-                    name="email-username"
-                    placeholder="Enter your email or username"
-                    autofocus=""
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  /> */}
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -126,9 +128,7 @@ const Login = () => {
                       <small
                         className="text-primary cursor-pointer"
                         onClick={() => {
-                          setToastData(
-                            "Call to our Adminstrators: +998 91 798 36 06"
-                          );
+                          setToastData("Call to our Adminstrators");
                           setToggle(true);
                         }}
                       >
@@ -138,7 +138,7 @@ const Login = () => {
                   </div>
                   <div class="input-group input-group-merge">
                     <input
-                      type="password"
+                      type={type}
                       id="password"
                       class="form-control"
                       name="password"
@@ -147,8 +147,11 @@ const Login = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <span class="input-group-text cursor-pointer">
-                      <i class="bx bx-hide"></i>
+                    <span
+                      class="input-group-text cursor-pointer"
+                      onClick={handlePasswordIconToggle}
+                    >
+                      <i class={`bx ${icon}`}></i>
                     </span>
                   </div>
                 </div>
